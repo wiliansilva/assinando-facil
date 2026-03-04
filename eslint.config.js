@@ -1,11 +1,11 @@
 import js from '@eslint/js'
 import eslintConfigPrettier from 'eslint-config-prettier'
+import prettierPlugin from 'eslint-plugin-prettier'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
 
-/** @type {import('eslint').Linter.FlatConfig[]} */
 export default tseslint.config(
 	{ ignores: ['dist'] },
 	{
@@ -20,11 +20,16 @@ export default tseslint.config(
 			globals: globals.browser,
 		},
 		plugins: {
+			prettier: prettierPlugin,
 			'react-hooks': reactHooks,
 			'react-refresh': reactRefresh,
 		},
 		rules: {
 			...reactHooks.configs.recommended.rules,
+
+			// 🔥 ESLint executa o Prettier
+			'prettier/prettier': 'error',
+
 			'react-refresh/only-export-components': [
 				'warn',
 				{ allowConstantExport: true },
