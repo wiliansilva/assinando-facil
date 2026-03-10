@@ -1,14 +1,19 @@
-import { WizardLayout } from '../components/WizardLayout'
+import { Wizard } from '../components/Wizard'
 import { useSignatureStore } from '../store/signature.store'
 
 export function ReadDocumentStep() {
 	const setStep = useSignatureStore((s) => s.setStep)
 
 	return (
-		<WizardLayout
-			title='Revise o documento'
-			onNext={() => setStep('confirm')}
-		>
+		<Wizard.layout>
+			<Wizard.Header
+				title='Leia o documento com atenção'
+				step={1}
+				totalSteps={6}
+				onDownload={() => console.log('baixar documento')}
+				onNext={() => setStep('confirm')}
+			/>
+
 			<p>
 				Você está iniciando a assinatura deste contrato. Leia
 				atentamente antes de prosseguir.
@@ -24,6 +29,6 @@ export function ReadDocumentStep() {
 			>
 				<p>Conteúdo do contrato...</p>
 			</div>
-		</WizardLayout>
+		</Wizard.layout>
 	)
 }

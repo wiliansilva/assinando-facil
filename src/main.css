@@ -1,0 +1,78 @@
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+html,
+body {
+	height: 100%;
+	font-family: 'Montserrat', sans-serif;
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+    background: #f1f1f1;
+}
+
+ul,
+ol {
+	list-style: none;
+}
+
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+button {
+	font: inherit;
+	border: none;
+	background: none;
+	cursor: pointer;
+}
+
+
+input,
+textarea,
+select,
+button {
+	font: inherit;
+}
+
+
+img,
+picture,
+video,
+canvas,
+svg {
+	display: block;
+	max-width: 100%;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+:focus {
+	outline: none;
+}
+
+
+#root {
+	height: 100%;
+}
+
+
+:root {
+	/* Colors: */
+	--background-color: #F1F1F1;
+	--primary-font-color: #1F2937;
+	--secondary-font-color: #6B7280;
+	--primary-color-blue: #2563EB;
+	--secondary-color-green:#22C55E;  
+}

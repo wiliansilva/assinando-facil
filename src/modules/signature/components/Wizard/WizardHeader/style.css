@@ -1,0 +1,66 @@
+.wizard-header {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	justify-content: center;
+	padding: 16px 20px;
+	background-color: #ffffff;
+	border-radius: 8px;
+	margin: 24px;
+	box-shadow: 0 3px 6px 1px #0000002e;
+	position: relative;
+    overflow: hidden;
+}
+
+.wizard-header-content {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	min-height: 64px;
+}
+
+.wizard-header-left {
+	width: 140px;
+}
+
+.wizard-header-center {
+	flex: 1;
+	text-align: center;
+}
+
+.wizard-header-right {
+	width: 140px;
+}
+
+.wizard-title {
+	font-size: 20px;
+	font-weight: bold;
+	color: var(--primary-font-color);
+	margin: 0;
+}
+
+.wizard-step {
+	font-size: 14px;
+	color: var(--secondary-font-color);
+    font-weight: 600;
+}
+
+.wizard-progress {
+	width: 100%;
+    height: 6px;
+    background: #e9e9ea;
+    border-radius: 0;
+    overflow: hidden;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.wizard-progress-bar {
+	height: 100%;
+	width: 0;
+	background: var(--primary-color-blue);
+	transition: width 300ms ease;
+}
+

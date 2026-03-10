@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { WizardLayout } from '../components/WizardLayout'
+import { Wizard } from '../components/Wizard'
 import { useSignatureStore } from '../store/signature.store'
 
 export function ConfirmDataStep() {
@@ -19,12 +19,16 @@ export function ConfirmDataStep() {
 	}
 
 	return (
-		<WizardLayout
-			title='Confirme seus dados'
-			onNext={() => setStep('document')}
-			onBack={() => setStep('read')}
-			disableNext={!valid}
-		>
+		<Wizard.layout>
+			<Wizard.Header
+				title='Confirme seus dados'
+				step={2}
+				totalSteps={6}
+				onBack={() => setStep('read')}
+				onNext={() => setStep('document')}
+				disableNext={!valid}
+			/>
+
 			<p>Estes dados serão vinculados ao documento assinado.</p>
 
 			<input
@@ -53,6 +57,6 @@ export function ConfirmDataStep() {
 					validate()
 				}}
 			/>
-		</WizardLayout>
+		</Wizard.layout>
 	)
 }
