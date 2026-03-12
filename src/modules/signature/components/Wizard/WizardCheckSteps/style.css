@@ -1,0 +1,177 @@
+.wizard-check-steps {
+	width: 100%;
+	max-width: 320px;
+	margin: 0 auto;
+	padding: 0;
+	background: transparent;
+	color: #212938;
+}
+
+.wizard-check-steps__brand {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 4px;
+	margin-bottom: 84px;
+}
+
+.wizard-check-steps__logo {
+	display: flex;
+	align-items: flex-end;
+	gap: 4px;
+	line-height: 0.85;
+}
+
+.wizard-check-steps__logo-rbx {
+	font-size: 5rem;
+	font-weight: 800;
+	letter-spacing: -0.12em;
+	color: #4a4a4a;
+	text-transform: lowercase;
+}
+
+.wizard-check-steps__logo-rbx span {
+	color: #f16f3d;
+}
+
+.wizard-check-steps__logo-soft {
+	font-size: 3.5rem;
+	font-weight: 400;
+	letter-spacing: -0.05em;
+	color: #07579a;
+	text-transform: lowercase;
+}
+
+.wizard-check-steps__company {
+	font-size: 1rem;
+	color: #4b5563;
+}
+
+.wizard-check-steps__intro {
+	margin-bottom: 42px;
+}
+
+.wizard-check-steps__intro h1 {
+	font-size: 1.1rem;
+	line-height: 1.1;
+	font-weight: 700;
+	margin-bottom: 6px;
+	color: #20293a;
+}
+
+.wizard-check-steps__intro p {
+	font-size: 0.82rem;
+	color: #8a90a0;
+}
+
+.wizard-check-steps__timeline {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	margin-bottom: 46px;
+}
+
+.wizard-check-steps__item {
+	position: relative;
+	display: grid;
+	grid-template-columns: 28px 1fr;
+	align-items: center;
+	column-gap: 14px;
+	min-height: 52px;
+	color: #c8c8c8;
+}
+
+.wizard-check-steps__item:not(:last-child)::after {
+	content: '';
+	position: absolute;
+	left: 13px;
+	top: 33px;
+	width: 2px;
+	height: 30px;
+	background: #c7c7c7;
+}
+
+.wizard-check-steps__marker {
+	position: relative;
+	z-index: 1;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	background: #bebebe;
+}
+
+.wizard-check-steps__label {
+	font-size: 0.8rem;
+	font-weight: 400;
+	color: inherit;
+}
+
+.wizard-check-steps__item--completed {
+	color: #20293a;
+}
+
+.wizard-check-steps__item--completed .wizard-check-steps__marker {
+	background: #2dc15c;
+}
+
+.wizard-check-steps__item--completed:not(:last-child)::after {
+	background: #2dc15c;
+}
+
+.wizard-check-steps__item--active {
+	color: #20293a;
+}
+
+.wizard-check-steps__item--active .wizard-check-steps__marker {
+	border: 4px solid #20293a;
+	background: #f3f3f3;
+}
+
+.wizard-check-steps__item--active .wizard-check-steps__label {
+	font-weight: 700;
+}
+
+.wizard-check-steps__marker-check {
+	font-size: 1rem;
+	font-weight: 700;
+	color: #fff;
+	line-height: 1;
+}
+
+.wizard-check-steps__marker-dots {
+	display: inline-flex;
+	gap: 2px;
+}
+
+.wizard-check-steps__marker-dots span {
+	width: 4px;
+	height: 4px;
+	border-radius: 50%;
+	background: #20293a;
+}
+
+@media (max-width: 480px) {
+	.wizard-check-steps {
+		max-width: 100%;
+	}
+
+	.wizard-check-steps__brand {
+		margin-bottom: 36px;
+	}
+
+	.wizard-check-steps__logo-rbx {
+		font-size: 3.8rem;
+	}
+
+	.wizard-check-steps__logo-soft {
+		font-size: 2.7rem;
+	}
+
+	.wizard-check-steps__intro h1 {
+		font-size: 1.3rem;
+	}
+}

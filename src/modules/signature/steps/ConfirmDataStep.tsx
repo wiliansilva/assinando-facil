@@ -1,62 +1,45 @@
-import { useState } from 'react'
-import { Wizard } from '../components/Wizard'
+import { useEffect } from 'react'
+import { useSignatureContext } from '../context/SignatureContext'
 import { useSignatureStore } from '../store/signature.store'
 
 export function ConfirmDataStep() {
-	const { data, updateData, setStep } = useSignatureStore()
-	const [valid, setValid] = useState(false)
+	const { data, updateData } = useSignatureStore()
+	const { setStepValid } = useSignatureContext()
 
 	const handleChange = (field: string, value: string) => {
 		updateData({ [field]: value })
 	}
 
-	const validate = () => {
+	useEffect(() => {
 		const isValid =
-			data.fullName.length > 3 &&
-			data.cpf.length > 10 &&
+			data.fullName.trim().length > 3 &&
+			data.cpf.trim().length > 10 &&
 			data.email.includes('@')
-		setValid(isValid)
-	}
+
+		setStepValid(isValid)
+	}, [data.cpf, data.email, data.fullName, setStepValid])
 
 	return (
-		<Wizard.layout>
-			<Wizard.Header
-				title='Confirme seus dados'
-				step={2}
-				totalSteps={6}
-				onBack={() => setStep('read')}
-				onNext={() => setStep('document')}
-				disableNext={!valid}
-			/>
-
+		<>
 			<p>Estes dados serão vinculados ao documento assinado.</p>
 
 			<input
 				placeholder='Nome completo'
 				value={data.fullName}
-				onChange={(e) => {
-					handleChange('fullName', e.target.value)
-					validate()
-				}}
+				onChange={(e) => handleChange('fullName', e.target.value)}
 			/>
 
 			<input
 				placeholder='CPF'
 				value={data.cpf}
-				onChange={(e) => {
-					handleChange('cpf', e.target.value)
-					validate()
-				}}
+				onChange={(e) => handleChange('cpf', e.target.value)}
 			/>
 
 			<input
 				placeholder='E-mail'
 				value={data.email}
-				onChange={(e) => {
-					handleChange('email', e.target.value)
-					validate()
-				}}
+				onChange={(e) => handleChange('email', e.target.value)}
 			/>
-		</Wizard.layout>
+		</>
 	)
 }

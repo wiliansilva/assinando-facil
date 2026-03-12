@@ -19,8 +19,11 @@
 }
 
 .btn.primary:hover {
-	background-color: transparent;
-	color:var(--primary-color-blue);
+	filter: brightness(1.5);
+}
+
+.btn.primary:active {
+    filter: brightness(0.8);
 }
 
 .btn.secondary {
@@ -29,8 +32,13 @@
     background: transparent;
 }
 .btn.secondary:hover {
-	background-color: var(--primary-color-blue);;
+	background-color: var(--primary-color-blue);
 	color: #ffffff;
+	filter: brightness(1.5);
+}
+
+.btn.secondary:active {
+    filter: brightness(0.8);
 }
 
 .btn.disabled {

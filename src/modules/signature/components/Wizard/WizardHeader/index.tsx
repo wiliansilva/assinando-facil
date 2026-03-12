@@ -1,3 +1,4 @@
+import { useSignatureContext } from '../../../context/SignatureContext'
 import Button from '../../Button'
 import type { WizardHeaderProps } from '../types'
 import './style.css'
@@ -9,8 +10,8 @@ export function WizardHeader({
 	onDownload,
 	onBack,
 	onNext,
-	disableNext,
 }: WizardHeaderProps) {
+	const { isNextDisabled } = useSignatureContext()
 	const showProgress =
 		typeof step === 'number' &&
 		typeof totalSteps === 'number' &&
@@ -55,7 +56,7 @@ export function WizardHeader({
 							Label='Avançar'
 							type='primary'
 							onClick={onNext}
-							disabled={disableNext}
+							disabled={isNextDisabled}
 						/>
 					)}
 				</div>

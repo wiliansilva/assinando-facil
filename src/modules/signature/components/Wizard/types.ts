@@ -5,6 +5,5 @@ export type WizardHeaderProps = {
 	onDownload?: () => void
 	onNext?: () => void
 	onBack?: () => void
-	disableNext?: boolean
 	disableDownload?: boolean
 }

@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
+import { createJSONStorage, persist } from 'zustand/middleware'
 import type { SignatureData, SignatureStep } from '../domain/types'
 
 type SignatureState = {
@@ -34,6 +34,7 @@ export const useSignatureStore = create<SignatureState>()(
 		}),
 		{
 			name: 'signature-flow',
+			storage: createJSONStorage(() => sessionStorage),
 		},
 	),
 )
