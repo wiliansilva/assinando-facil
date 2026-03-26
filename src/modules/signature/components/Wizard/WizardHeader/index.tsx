@@ -1,24 +1,29 @@
-import { useSignatureContext } from '../../../context/SignatureContext'
-import Button from '../../Button'
+import Button from '../../../../../components/Button'
+import { useSignatureStore } from '../../../store/signature.store'
 import type { WizardHeaderProps } from '../types'
 import './style.css'
 
 export function WizardHeader({
 	title,
-	step,
+	stepNumber,
 	totalSteps,
 	onDownload,
 	onBack,
 	onNext,
 }: WizardHeaderProps) {
-	const { isNextDisabled } = useSignatureContext()
 	const showProgress =
-		typeof step === 'number' &&
+		typeof stepNumber === 'number' &&
 		typeof totalSteps === 'number' &&
 		totalSteps > 0
+
 	const percent = showProgress
-		? Math.max(0, Math.min(100, Math.round((step! / totalSteps!) * 100)))
+		? Math.max(
+				0,
+				Math.min(100, Math.round((stepNumber! / totalSteps!) * 100)),
+			)
 		: 0
+
+	const isValid = useSignatureStore((s) => s.isCurrentStepValid())
 
 	return (
 		<header className='wizard-header'>
@@ -45,7 +50,7 @@ export function WizardHeader({
 
 					{showProgress && (
 						<p className='wizard-step'>
-							Etapa {step} de {totalSteps}
+							Etapa {stepNumber} de {totalSteps}
 						</p>
 					)}
 				</div>
@@ -56,17 +61,14 @@ export function WizardHeader({
 							Label='Avançar'
 							type='primary'
 							onClick={onNext}
-							disabled={isNextDisabled}
+							disabled={!isValid}
 						/>
 					)}
 				</div>
 			</div>
 
 			{showProgress && (
-				<div
-					className='wizard-progress'
-					aria-hidden={false}
-				>
+				<div className='wizard-progress'>
 					<div
 						className='wizard-progress-bar'
 						style={{ width: `${percent}%` }}

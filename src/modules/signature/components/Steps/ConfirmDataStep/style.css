@@ -1,0 +1,18 @@
+.confirm-data-step {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	width: min(100%, 680px);
+}
+
+.confirm-data-step__description {
+	color: var(--secondary-font-color);
+	font-size: 0.95rem;
+}
+
+.confirm-data-step__fields {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	width: 100%;
+}

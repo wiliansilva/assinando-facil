@@ -2,7 +2,7 @@
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) 360px;
 	min-height: 100vh;
-	background: #f1f1f1;
+	background: var(--background-color);
 }
 
 .wizard-layout__content {
