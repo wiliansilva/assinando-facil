@@ -1,25 +1,23 @@
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
-import type { SignatureData, SignatureStep } from '../domain/types'
+import type { SignatureData, SignatureState } from './types'
 
-type SignatureState = {
-	step: SignatureStep
-	data: SignatureData
-	setStep: (step: SignatureStep) => void
-	updateData: (data: Partial<SignatureData>) => void
-	reset: () => void
-}
-
-const initialData: SignatureData = {
+export const initialData: SignatureData = {
 	fullName: '',
 	cpf: '',
-	email: '',
-	phone: '',
+	dateOfBirth: '',
+	documentFrontUrl: '',
+	documentBackUrl: '',
+	selfieUrl: '',
+	signatureImage: '',
+	token: '',
+	fileReadingConfirmed: false,
+	personalDataConfirmed: false,
 }
 
 export const useSignatureStore = create<SignatureState>()(
 	persist(
-		(set) => ({
+		(set, get) => ({
 			step: 'read',
 			data: initialData,
 
@@ -29,6 +27,32 @@ export const useSignatureStore = create<SignatureState>()(
 				set((state) => ({
 					data: { ...state.data, ...newData },
 				})),
+
+			availableSteps: [],
+
+			setAvailableSteps: (availableSteps) => set({ availableSteps }),
+
+			validByStep: {
+				read: false,
+				confirm: false,
+				document: true,
+				selfie: true,
+				signature: true,
+				token: true,
+			},
+
+			setStepValid: (step, valid) =>
+				set((state) => ({
+					validByStep: {
+						...state.validByStep,
+						[step]: valid,
+					},
+				})),
+
+			isCurrentStepValid: () => {
+				const { step, validByStep } = get()
+				return validByStep[step]
+			},
 
 			reset: () => set({ step: 'read', data: initialData }),
 		}),
