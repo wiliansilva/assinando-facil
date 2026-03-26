@@ -1,0 +1,29 @@
+.pdf-viewer {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+.pdf-viewer__document {
+	width: min(100%, 920px);
+}
+
+.pdf-viewer__page {
+	margin: 0 auto 24px;
+	background: #ffffff;
+	box-shadow: 0 12px 32px rgb(0 0 0 / 6%);
+}
+
+.pdf-viewer__page:last-child {
+	margin-bottom: 0;
+}
+
+.pdf-viewer__page .react-pdf__Page__canvas {
+	width: 100% !important;
+	height: auto !important;
+}
+
+.pdf-viewer__page .react-pdf__Page__textContent,
+.pdf-viewer__page .react-pdf__Page__annotations {
+	inset: 0;
+}
