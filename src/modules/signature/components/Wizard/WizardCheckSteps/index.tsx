@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useFormContext } from 'react-hook-form'
+import { useFormContext, useWatch } from 'react-hook-form'
 import Button from '../../../../../components/Button'
 import { Input } from '../../../../../components/Input'
 import { FormCheckbox } from '../../../../../components/Input/variations/form/FormCheckbox'
@@ -33,10 +33,15 @@ export function WizardCheckSteps({ onNext }: { onNext?: () => void }) {
 		formState: { errors },
 	} = useFormContext<Partial<SignatureData>>()
 
+	const fileReadingConfirmed = useWatch({
+		control,
+		name: 'fileReadingConfirmed',
+	})
+
 	const setStepValid = useSignatureStore((state) => state.setStepValid)
 	useEffect(() => {
-		setStepValid('read', watch('fileReadingConfirmed') ?? false)
-	}, [watch, watch('fileReadingConfirmed'), setStepValid])
+		setStepValid('read', fileReadingConfirmed ?? false)
+	}, [fileReadingConfirmed, setStepValid])
 
 	return (
 		<aside className='wizard-layout__sidebar'>

@@ -5,7 +5,7 @@ import {
 	mdiCheck,
 } from '@mdi/js'
 import Icon from '@mdi/react'
-import { useFormContext } from 'react-hook-form'
+import { useFormContext, useWatch } from 'react-hook-form'
 
 import { Form } from '../../../../../components/Input'
 import Text from '../../../../../components/Text'
@@ -21,17 +21,21 @@ export function ConfirmDataStep() {
 	const {
 		register,
 		control,
-		watch,
 		formState: { errors },
 	} = useFormContext<Partial<SignatureData>>()
 
+	const personalDataConfirmed = useWatch({
+		control,
+		name: 'personalDataConfirmed',
+	})
+
 	const setStepValid = useSignatureStore((state) => state.setStepValid)
 	useEffect(() => {
-		setStepValid('confirm', watch('personalDataConfirmed') ?? false)
-	}, [watch, watch('personalDataConfirmed'), setStepValid])
+		setStepValid('confirm', personalDataConfirmed ?? false)
+	}, [personalDataConfirmed, setStepValid])
 
 	return (
-		<form className='confirm-data-step'>
+		<div className='confirm-data-step'>
 			<div className='confirm-data-step__title'>
 				<Text
 					type={TextType.title}
@@ -105,6 +109,6 @@ export function ConfirmDataStep() {
 					label='Declaro que meus dados estão corretos.'
 				/>
 			</div>
-		</form>
+		</div>
 	)
 }

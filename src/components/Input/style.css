@@ -78,7 +78,7 @@
 }
 
 .input-text__required {
-  color: #ef4444;
+  color: var(--text-color-red);
 }
 
 .input-text__control {
@@ -123,12 +123,12 @@
 }
 
 .input-text__error {
-  border-color:  #ef4444;;
+  border-color:  var(--text-color-red);;
 }
 
 .input-error-message {
     font-size: 11px;
-    color: #ef4444;
+    color: var(--text-color-red);
     display: flex;
     gap: 8px;
     flex-direction: row;

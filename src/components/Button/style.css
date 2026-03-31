@@ -46,4 +46,13 @@
     cursor: not-allowed;
 }
 
+.btn svg {
+    margin-right: 8px;
+}
 
+
+@media (max-width: 768px) {
+    .btn {
+       width: 100%;
+    }
+}

@@ -5,6 +5,7 @@ export default function PrimaryButton({
 	Label = '',
 	disabled = false,
 	style,
+	icon,
 }: CommonButtonProps) {
 	return (
 		<div
@@ -12,6 +13,7 @@ export default function PrimaryButton({
 			onClick={onClick}
 			style={style}
 		>
+			{icon}
 			{Label}
 		</div>
 	)

@@ -1,0 +1,71 @@
+.photo-document-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.photo-document-step__fields {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 80px;
+    margin-top: 32px;
+}
+
+.photo-document__take {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 56px;
+}
+
+
+.photo-document__take > .btn {
+    margin-top: 16px;
+}
+
+.photo-document__take-image {
+    min-height: 250px;
+    max-height: 250px;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.photo-document__take-image > img {
+    width: 340px;
+    height: 200px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.photo-document__take-image > img.success {
+    border: 8px solid var(--secondary-color-green);
+}
+.photo-document__take-image > img.error {
+    border: 8px solid var(--text-color-red);
+}
+ 
+.photo-document__take-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    width: 100%;
+    margin-top: 16px;
+}
+
+.photo-document__take-message.success {
+    color: var(--secondary-color-green);
+}
+
+.photo-document__take-message.error {
+    color: var(--text-color-red);
+}
+
+.photo-document__take-message svg {
+    margin-right: 6px;
+}

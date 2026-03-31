@@ -1,8 +1,77 @@
+import { mdiCheck } from '@mdi/js'
+import Icon from '@mdi/react'
+import { useEffect } from 'react'
+import { useFormContext, useWatch } from 'react-hook-form'
+import Text from '../../../../../components/Text'
+import { TextType } from '../../../../../components/Text/types'
+import { useSignatureStore } from '../../../store/signature.store'
+import type { SignatureData } from '../../../store/types'
+import { DocumentPhotoField } from './Documentphotofield'
+import './style.css'
+
+const CHECKLIST_ITEMS = [
+	'Documento inteiro na imagem',
+	'Sem reflexos',
+	'Texto legível',
+]
+
 export default function PhotoDocumentStep() {
+	const { control } = useFormContext<Partial<SignatureData>>()
+
+	const documentFrontBase64 = useWatch({
+		control,
+		name: 'documentFrontBase64',
+	})
+	const documentBackBase64 = useWatch({ control, name: 'documentBackBase64' })
+
+	const setStepValid = useSignatureStore((state) => state.setStepValid)
+
+	useEffect(() => {
+		setStepValid('document', !!documentFrontBase64 && !!documentBackBase64)
+	}, [documentFrontBase64, documentBackBase64, setStepValid])
+
 	return (
-		<div>
-			<h2>Foto do Documento</h2>
-			<p>Esta é a etapa de foto do documento.</p>
+		<div className='photo-document-step'>
+			<Text
+				type={TextType.title}
+				value='Envie uma foto frente e verso do seu documento (RG, CNH ou outro documento oficial).'
+			/>
+
+			<div className='photo-document-step__title'>
+				<Text
+					type={TextType.title}
+					value='Antes de tirar a foto verifique:'
+				/>
+				{CHECKLIST_ITEMS.map((item) => (
+					<Text
+						key={item}
+						type={TextType.subTitle}
+						value={item}
+						icon={
+							<Icon
+								path={mdiCheck}
+								size={1}
+								color='var(--secondary-color-green)'
+							/>
+						}
+					/>
+				))}
+			</div>
+
+			<div className='photo-document-step__fields'>
+				<DocumentPhotoField
+					label='Frente'
+					fieldName='documentFrontBase64'
+					placeholderSrc='/assets/document-front-placeholder.png'
+					cameraTitle='Frente do seu documento'
+				/>
+				<DocumentPhotoField
+					label='Verso'
+					fieldName='documentBackBase64'
+					placeholderSrc='/assets/document-back-placeholder.png'
+					cameraTitle='Verso do seu documento'
+				/>
+			</div>
 		</div>
 	)
 }

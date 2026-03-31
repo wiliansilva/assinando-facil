@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 
 export type ButtonType = 'primary' | 'secondary'
 
@@ -9,4 +9,5 @@ export type CommonButtonProps = {
 	type?: ButtonType
 	disabled?: boolean
 	style?: CSSProperties
+	icon?: ReactNode
 }

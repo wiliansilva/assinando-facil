@@ -2,8 +2,8 @@ export type SignatureData = {
 	fullName?: string
 	cpf?: string
 	dateOfBirth?: string
-	documentFrontUrl?: string
-	documentBackUrl?: string
+	documentFrontBase64?: string
+	documentBackBase64?: string
 	selfieUrl?: string
 	signatureImage?: string
 	token?: string

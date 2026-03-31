@@ -6,8 +6,8 @@ export const initialData: SignatureData = {
 	fullName: '',
 	cpf: '',
 	dateOfBirth: '',
-	documentFrontUrl: '',
-	documentBackUrl: '',
+	documentFrontBase64: '',
+	documentBackBase64: '',
 	selfieUrl: '',
 	signatureImage: '',
 	token: '',
@@ -35,7 +35,7 @@ export const useSignatureStore = create<SignatureState>()(
 			validByStep: {
 				read: false,
 				confirm: false,
-				document: true,
+				document: false,
 				selfie: true,
 				signature: true,
 				token: true,
@@ -51,6 +51,7 @@ export const useSignatureStore = create<SignatureState>()(
 
 			isCurrentStepValid: () => {
 				const { step, validByStep } = get()
+
 				return validByStep[step]
 			},
 

@@ -20,7 +20,10 @@ export const schemasByStep = {
 		}),
 	}),
 
-	document: z.object({}),
+	document: z.object({
+		documentFrontBase64: z.string().nonempty('Campo obrigatório'),
+		documentBackBase64: z.string().nonempty('Campo obrigatório'),
+	}),
 
 	selfie: z.object({}),
 
