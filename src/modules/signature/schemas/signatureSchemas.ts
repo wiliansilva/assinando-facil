@@ -1,8 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { Resolver } from 'react-hook-form'
 import { z } from 'zod'
+import type { SignatureData } from '../../../domain/types'
 import { useSignatureStore } from '../store/signature.store'
-import type { SignatureData } from '../store/types'
 
 export const schemasByStep = {
 	read: z.object({

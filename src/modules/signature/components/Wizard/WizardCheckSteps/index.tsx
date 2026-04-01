@@ -3,8 +3,8 @@ import { useFormContext, useWatch } from 'react-hook-form'
 import Button from '../../../../../components/Button'
 import { Input } from '../../../../../components/Input'
 import { FormCheckbox } from '../../../../../components/Input/variations/form/FormCheckbox'
+import type { SignatureData, SignatureStep } from '../../../../../domain/types'
 import { useSignatureStore } from '../../../store/signature.store'
-import type { SignatureData, SignatureStep } from '../../../store/types'
 import './style.css'
 
 const flowSteps: { key: SignatureStep; label: string }[] = [

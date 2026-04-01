@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
-import type { SignatureData, SignatureState } from './types'
+import type { SignatureData, SignatureState } from '../../../domain/types'
 
 export const initialData: SignatureData = {
 	fullName: '',

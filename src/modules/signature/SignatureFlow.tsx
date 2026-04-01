@@ -1,14 +1,15 @@
 import { useEffect, type ReactNode } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
+import type { SignatureData, SignatureStep } from '../../domain/types'
 import { ConfirmDataStep } from './components/Steps/ConfirmDataStep'
 import PhotoDocumentStep from './components/Steps/PhotoDocumentStep'
 import { ReadDocumentStep } from './components/Steps/ReadDocumentStep'
 import SelfieStep from './components/Steps/SelfieStep'
 import { Wizard } from './components/Wizard'
 import { dynamicResolver } from './schemas/signatureSchemas'
+import './signature.css'
 import { useSignatureStore } from './store/signature.store'
-import type { SignatureData, SignatureStep } from './store/types'
 
 const stepContent: Record<
 	SignatureStep,

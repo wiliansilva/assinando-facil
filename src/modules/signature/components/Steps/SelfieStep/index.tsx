@@ -2,11 +2,11 @@ import { mdiCheck } from '@mdi/js'
 import Icon from '@mdi/react'
 import { useEffect } from 'react'
 import { useFormContext, useWatch } from 'react-hook-form'
+import { PhotoCaptureField } from '../../../../../components/PhotoCaptureField'
 import Text from '../../../../../components/Text'
 import { TextType } from '../../../../../components/Text/types'
+import type { SignatureData } from '../../../../../domain/types'
 import { useSignatureStore } from '../../../store/signature.store'
-import type { SignatureData } from '../../../store/types'
-import { DocumentPhotoField } from '../PhotoDocumentStep/Documentphotofield'
 const CHECKLIST_ITEMS = [
 	'Na foto, mantenha o documento visível e não cubra o rosto.',
 	'A foto é usada apenas para validar sua identidade e não será compartilhada.',
@@ -53,7 +53,7 @@ export default function SelfieStep() {
 			</div>
 
 			<div className='photo-document-step__fields'>
-				<DocumentPhotoField
+				<PhotoCaptureField
 					label=''
 					fieldName='selfieBase64'
 					placeholderSrc='/assets/selfie-placeholder.png'

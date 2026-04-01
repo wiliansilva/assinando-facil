@@ -2,11 +2,11 @@ import { mdiCheck } from '@mdi/js'
 import Icon from '@mdi/react'
 import { useEffect } from 'react'
 import { useFormContext, useWatch } from 'react-hook-form'
+import { PhotoCaptureField } from '../../../../../components/PhotoCaptureField'
 import Text from '../../../../../components/Text'
 import { TextType } from '../../../../../components/Text/types'
+import type { SignatureData } from '../../../../../domain/types'
 import { useSignatureStore } from '../../../store/signature.store'
-import type { SignatureData } from '../../../store/types'
-import { DocumentPhotoField } from './Documentphotofield'
 import './style.css'
 
 const CHECKLIST_ITEMS = [
@@ -59,13 +59,13 @@ export default function PhotoDocumentStep() {
 			</div>
 
 			<div className='photo-document-step__fields'>
-				<DocumentPhotoField
+				<PhotoCaptureField
 					label='Frente'
 					fieldName='documentFrontBase64'
 					placeholderSrc='/assets/document-front-placeholder.png'
 					cameraTitle='Frente do seu documento'
 				/>
-				<DocumentPhotoField
+				<PhotoCaptureField
 					label='Verso'
 					fieldName='documentBackBase64'
 					placeholderSrc='/assets/document-back-placeholder.png'

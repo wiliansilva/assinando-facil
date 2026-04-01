@@ -1,27 +1,19 @@
-import { mdiCheckCircle } from '@mdi/js'
+import { mdiAlertCircle, mdiCheckCircle } from '@mdi/js'
 import Icon from '@mdi/react'
 import { useState } from 'react'
 import { useFormContext } from 'react-hook-form'
-import Button from '../../../../../components/Button'
-import { CameraCapture } from '../../../../../components/CameraCapture'
-import type { SignatureData } from '../../../store/types'
+import type { SignatureData } from '../../domain/types'
+import Button from '../Button'
+import { CameraCapture } from '../CameraCapture'
+import './style.css'
+import type { PhotoCaptureFieldProps } from './types'
 
-type DocumentPhotoFieldProps = {
-	label: string
-	fieldName: keyof Pick<
-		SignatureData,
-		'documentFrontBase64' | 'documentBackBase64' | 'selfieBase64'
-	>
-	placeholderSrc: string
-	cameraTitle: string
-}
-
-export function DocumentPhotoField({
+export function PhotoCaptureField({
 	label,
 	fieldName,
 	placeholderSrc,
 	cameraTitle,
-}: DocumentPhotoFieldProps) {
+}: PhotoCaptureFieldProps) {
 	const [cameraOpen, setCameraOpen] = useState(false)
 
 	const {
@@ -42,10 +34,12 @@ export function DocumentPhotoField({
 	return (
 		<div className='photo-document__take'>
 			<div className='photo-document__take-image'>
-				<span className='input-text__label'>
-					{label}
-					<span className='input-text__required'>*</span>
-				</span>
+				{label && (
+					<span className='input-text__label'>
+						{label}
+						<span className='input-text__required'>*</span>
+					</span>
+				)}
 
 				<input
 					type='hidden'
@@ -73,7 +67,7 @@ export function DocumentPhotoField({
 						{hasError && (
 							<div className='photo-document__take-message error'>
 								<Icon
-									path={mdiCheckCircle}
+									path={mdiAlertCircle}
 									size={1}
 									color='var(--text-color-red)'
 								/>

@@ -13,8 +13,8 @@ import { TextType } from '../../../../../components/Text/types'
 
 import { useEffect } from 'react'
 import { FormCheckbox } from '../../../../../components/Input/variations/form/FormCheckbox'
+import type { SignatureData } from '../../../../../domain/types'
 import { useSignatureStore } from '../../../store/signature.store'
-import type { SignatureData } from '../../../store/types'
 import './style.css'
 
 export function ConfirmDataStep() {
