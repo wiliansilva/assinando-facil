@@ -10,7 +10,7 @@ type DocumentPhotoFieldProps = {
 	label: string
 	fieldName: keyof Pick<
 		SignatureData,
-		'documentFrontBase64' | 'documentBackBase64'
+		'documentFrontBase64' | 'documentBackBase64' | 'selfieBase64'
 	>
 	placeholderSrc: string
 	cameraTitle: string

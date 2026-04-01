@@ -4,6 +4,7 @@ import { toast } from 'sonner'
 import { ConfirmDataStep } from './components/Steps/ConfirmDataStep'
 import PhotoDocumentStep from './components/Steps/PhotoDocumentStep'
 import { ReadDocumentStep } from './components/Steps/ReadDocumentStep'
+import SelfieStep from './components/Steps/SelfieStep'
 import { Wizard } from './components/Wizard'
 import { dynamicResolver } from './schemas/signatureSchemas'
 import { useSignatureStore } from './store/signature.store'
@@ -35,6 +36,7 @@ const stepContent: Record<
 	selfie: {
 		title: 'Selfie com o documento',
 		index: 4,
+		content: <SelfieStep />,
 	},
 	signature: {
 		title: 'Assinatura Manuscrita',

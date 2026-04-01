@@ -25,7 +25,9 @@ export const schemasByStep = {
 		documentBackBase64: z.string().nonempty('Campo obrigatório'),
 	}),
 
-	selfie: z.object({}),
+	selfie: z.object({
+		selfieBase64: z.string().nonempty('Campo obrigatório'),
+	}),
 
 	signature: z.object({}),
 

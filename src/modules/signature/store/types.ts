@@ -4,7 +4,7 @@ export type SignatureData = {
 	dateOfBirth?: string
 	documentFrontBase64?: string
 	documentBackBase64?: string
-	selfieUrl?: string
+	selfieBase64?: string
 	signatureImage?: string
 	token?: string
 	fileReadingConfirmed?: boolean
