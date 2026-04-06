@@ -5,11 +5,13 @@ export type SignatureData = {
 	documentFrontBase64?: string
 	documentBackBase64?: string
 	selfieBase64?: string
-	signatureImage?: string
+	signatureBase64?: string
+	signatureType: SignatureType
 	token?: string
 	fileReadingConfirmed?: boolean
 	personalDataConfirmed?: boolean
 }
+export type SignatureType = 'typed' | 'drawed'
 
 export type FormData = Partial<SignatureData>
 

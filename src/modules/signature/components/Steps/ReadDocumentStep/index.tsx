@@ -3,7 +3,7 @@ import PdfViewer from '../../../../../components/PdfViewer'
 export function ReadDocumentStep() {
 	return (
 		<>
-			<PdfViewer file='/example.pdf' />
+			<PdfViewer file='assets/example.pdf' />
 		</>
 	)
 }

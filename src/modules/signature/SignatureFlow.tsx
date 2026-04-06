@@ -6,6 +6,7 @@ import { ConfirmDataStep } from './components/Steps/ConfirmDataStep'
 import PhotoDocumentStep from './components/Steps/PhotoDocumentStep'
 import { ReadDocumentStep } from './components/Steps/ReadDocumentStep'
 import SelfieStep from './components/Steps/SelfieStep'
+import SignatureCaptureStep from './components/Steps/SignatureCaptureStep'
 import { Wizard } from './components/Wizard'
 import { dynamicResolver } from './schemas/signatureSchemas'
 import './signature.css'
@@ -42,6 +43,7 @@ const stepContent: Record<
 	signature: {
 		title: 'Assinatura Manuscrita',
 		index: 5,
+		content: <SignatureCaptureStep />,
 	},
 	token: {
 		title: 'Token de autenticação',

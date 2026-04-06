@@ -1,0 +1,38 @@
+.signature-tabs {
+	display: flex;
+	border-bottom: 1px solid #e0e0e0;
+	margin-bottom: 16px;
+    width: 100%;
+}
+
+.signature-tabs__tab {
+	background: none;
+	border: none;
+	cursor: pointer;
+	font-size: 14px;
+	font-weight: bold;
+	letter-spacing: 0.5px;
+	color: #9e9e9e;
+	padding: 12px 20px;
+	position: relative;
+	transition: color 0.2s ease;
+}
+
+.signature-tabs__tab--active {
+	color: var(--primary-color, #1565c0);
+}
+
+.signature-tabs__tab--active::after {
+	content: '';
+	position: absolute;
+	bottom: -1px;
+	left: 0;
+	right: 0;
+	height: 2px;
+	background-color: var(--primary-color, #1565c0);
+	border-radius: 2px 2px 0 0;
+}
+
+.signature-tabs__tab:hover:not(.signature-tabs__tab--active) {
+	color: #424242;
+}
