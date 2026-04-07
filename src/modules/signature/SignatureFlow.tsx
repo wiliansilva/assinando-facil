@@ -1,4 +1,10 @@
-import { useEffect, type ReactNode } from 'react'
+import {
+	useCallback,
+	useEffect,
+	useMemo,
+	useState,
+	type ReactNode,
+} from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import type { SignatureData, SignatureStep } from '../../domain/types'
@@ -17,38 +23,35 @@ const stepContent: Record<
 	{
 		title: string
 		index: number
-		content?: ReactNode
+		component?: () => ReactNode
 	}
 > = {
 	read: {
 		title: 'Leia o documento com atenção',
 		index: 1,
-		content: <ReadDocumentStep />,
+		component: () => <ReadDocumentStep />,
 	},
 	confirm: {
 		title: 'Confirme seus dados',
 		index: 2,
-		content: <ConfirmDataStep />,
+		component: () => <ConfirmDataStep />,
 	},
 	document: {
 		title: 'Foto do documento oficial',
 		index: 3,
-		content: <PhotoDocumentStep />,
+		component: () => <PhotoDocumentStep />,
 	},
 	selfie: {
 		title: 'Selfie com o documento',
 		index: 4,
-		content: <SelfieStep />,
+		component: () => <SelfieStep />,
 	},
 	signature: {
 		title: 'Assinatura Manuscrita',
 		index: 5,
-		content: <SignatureCaptureStep />,
+		component: () => <SignatureCaptureStep />,
 	},
-	token: {
-		title: 'Token de autenticação',
-		index: 6,
-	},
+	token: { title: 'Token de autenticação', index: 6 },
 }
 
 export function SignatureFlow({ steps = [] }: { steps?: SignatureStep[] }) {
@@ -72,35 +75,42 @@ export function SignatureFlow({ steps = [] }: { steps?: SignatureStep[] }) {
 
 	const currentIndex = steps.indexOf(step)
 
-	const goNext =
-		currentIndex < steps.length - 1
-			? () => {
-					setStep(steps[currentIndex + 1])
-				}
-			: undefined
+	const goNext = useMemo(
+		() =>
+			currentIndex < steps.length - 1
+				? () => setStep(steps[currentIndex + 1])
+				: undefined,
+		[currentIndex, steps, setStep],
+	)
 
-	const goBack =
-		currentIndex > 0
-			? () => {
-					setStep(steps[currentIndex - 1])
-				}
-			: undefined
+	const goBack = useMemo(
+		() =>
+			currentIndex > 0
+				? () => setStep(steps[currentIndex - 1])
+				: undefined,
+		[currentIndex, steps, setStep],
+	)
+
+	const [initialData] = useState<SignatureData>(() => currentData)
 
 	const methods = useForm<SignatureData>({
 		resolver: dynamicResolver,
-		defaultValues: currentData,
+		defaultValues: initialData,
 	})
 
-	const handleNext = methods.handleSubmit(
-		(formData) => {
-			console.log(formData)
-
-			updateData(formData)
-			goNext?.()
-		},
-		() => {
-			toast.error('Por favor, corrija os erros antes de avançar.')
-		},
+	const handleNext = useCallback(
+		() =>
+			methods.handleSubmit(
+				(formData) => {
+					updateData(formData)
+					goNext?.()
+				},
+				() =>
+					toast.error(
+						'Por favor, corrija os erros antes de avançar.',
+					),
+			)(),
+		[methods, updateData, goNext],
 	)
 
 	const content = stepContent[step]
@@ -117,7 +127,7 @@ export function SignatureFlow({ steps = [] }: { steps?: SignatureStep[] }) {
 						onNext={handleNext}
 					/>
 
-					<Wizard.Body>{content.content}</Wizard.Body>
+					<Wizard.Body>{content.component?.()}</Wizard.Body>
 				</main>
 				<Wizard.CheckSteps onNext={handleNext} />
 			</Wizard.Layout>
