@@ -1,4 +1,5 @@
 export type SignatureData = {
+	documentPDFUrl?: string
 	fullName?: string
 	cpf?: string
 	dateOfBirth?: string

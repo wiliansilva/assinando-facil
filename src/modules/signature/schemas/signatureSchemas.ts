@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import type { Resolver } from 'react-hook-form'
 import { z } from 'zod'
 import type { SignatureData } from '../../../domain/types'
+import { isValidDateBR } from '../../../utils/dates'
 import { useSignatureStore } from '../store/signature.store'
 
 export const schemasByStep = {
@@ -14,7 +15,12 @@ export const schemasByStep = {
 	confirm: z.object({
 		fullName: z.string().nonempty('Campo obrigatório'),
 		cpf: z.string().nonempty('Campo obrigatório'),
-		dateOfBirth: z.string().nonempty('Campo obrigatório'),
+		dateOfBirth: z
+			.string()
+			.nonempty('Campo obrigatório')
+			.min(8, 'Data incompleta')
+			.refine(isValidDateBR, 'Data inválida'),
+
 		personalDataConfirmed: z.boolean().refine((val) => val === true, {
 			message: 'Necessário confirmar para confinuar',
 		}),

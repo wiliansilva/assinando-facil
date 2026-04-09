@@ -36,7 +36,7 @@ export function InputMask({
 					{...(props as any)}
 					id={inputId}
 					mask={mask}
-					unmask={true}
+					unmask={false}
 					disabled={disabled}
 					className={`input-text__input ${
 						errorMessage ? 'input-text__error' : ''

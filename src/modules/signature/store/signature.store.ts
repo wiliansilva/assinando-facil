@@ -3,14 +3,15 @@ import { createJSONStorage, persist } from 'zustand/middleware'
 import type { SignatureData, SignatureState } from '../../../domain/types'
 
 export const initialData: SignatureData = {
-	fullName: 'Wilian Alves da Silva',
-	cpf: '07595443954',
-	dateOfBirth: '28101992',
+	documentPDFUrl: '',
+	fullName: '',
+	cpf: '',
+	dateOfBirth: '',
 	documentFrontBase64: '',
 	documentBackBase64: '',
 	selfieBase64: '',
 	signatureBase64: '',
-	signatureType: 'typed',
+	signatureType: 'drawed',
 	token: '',
 	fileReadingConfirmed: false,
 	personalDataConfirmed: false,

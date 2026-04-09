@@ -1,21 +1,12 @@
+// src/router/index.tsx
 import { createBrowserRouter } from 'react-router-dom'
-import { SignatureFlow } from '../modules/signature/SignatureFlow'
+import ErrorPage from '../components/ErrorPage'
+import { SignaturePage } from '../modules/signature/SignaturePage'
 
 export const router = createBrowserRouter([
 	{
-		path: '/',
-		element: (
-			<SignatureFlow
-				steps={[
-					'read',
-					'confirm',
-					'document',
-					'selfie',
-					'signature',
-					'token',
-				]}
-			/>
-		),
-		// errorElement: <ErrorPage />,
+		path: '/assinar/:id',
+		element: <SignaturePage />,
+		errorElement: <ErrorPage />,
 	},
 ])

@@ -15,16 +15,14 @@ import SelfieStep from './components/Steps/SelfieStep'
 import SignatureCaptureStep from './components/Steps/SignatureCaptureStep'
 import { Wizard } from './components/Wizard'
 import { dynamicResolver } from './schemas/signatureSchemas'
+import type { GetSignatureResponse } from './services/types'
 import './signature.css'
 import { useSignatureStore } from './store/signature.store'
+import { normalizeSignatoryToFormData } from './utils/normalizeSignatureData'
 
 const stepContent: Record<
 	SignatureStep,
-	{
-		title: string
-		index: number
-		component?: () => ReactNode
-	}
+	{ title: string; index: number; component?: () => ReactNode }
 > = {
 	read: {
 		title: 'Leia o documento com atenção',
@@ -54,7 +52,13 @@ const stepContent: Record<
 	token: { title: 'Token de autenticação', index: 6 },
 }
 
-export function SignatureFlow({ steps = [] }: { steps?: SignatureStep[] }) {
+export function SignatureFlow({
+	steps = [],
+	data,
+}: {
+	steps?: SignatureStep[]
+	data?: GetSignatureResponse
+}) {
 	const setStep = useSignatureStore((state) => state.setStep)
 	const step = useSignatureStore((state) => state.step)
 	const setAvailableSteps = useSignatureStore(
@@ -68,7 +72,7 @@ export function SignatureFlow({ steps = [] }: { steps?: SignatureStep[] }) {
 	}, [steps, setAvailableSteps])
 
 	useEffect(() => {
-		if (!steps.includes(step)) {
+		if (steps.length > 0 && !steps.includes(step)) {
 			setStep(steps[0])
 		}
 	}, [steps, step, setStep])
@@ -91,11 +95,23 @@ export function SignatureFlow({ steps = [] }: { steps?: SignatureStep[] }) {
 		[currentIndex, steps, setStep],
 	)
 
-	const [initialData] = useState<SignatureData>(() => currentData)
+	// Mescla initialData do store com os dados normalizados da API
+	const [defaultValues] = useState<SignatureData>(() => ({
+		...(currentData || {}),
+		...(data?.signatario && data?.documento
+			? normalizeSignatoryToFormData(data.signatario, data.documento)
+			: {}),
+	}))
+
+	useEffect(() => {
+		if (data?.documento?.url) {
+			updateData({ documentPDFUrl: data.documento.url })
+		}
+	}, [data?.documento?.url, updateData])
 
 	const methods = useForm<SignatureData>({
 		resolver: dynamicResolver,
-		defaultValues: initialData,
+		defaultValues,
 	})
 
 	const handleNext = useCallback(
@@ -126,7 +142,6 @@ export function SignatureFlow({ steps = [] }: { steps?: SignatureStep[] }) {
 						onBack={goBack}
 						onNext={handleNext}
 					/>
-
 					<Wizard.Body>{content.component?.()}</Wizard.Body>
 				</main>
 				<Wizard.CheckSteps onNext={handleNext} />
