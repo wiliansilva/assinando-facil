@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { formatErrorMessage } from '../../../services/errorHandler'
+import { isoToBR } from '../../../utils/dates'
 import { signatureService } from '../services/signature.service'
 import type { ApiError, GetSignatureResponse } from '../services/types'
+import { useSignatureStore } from '../store/signature.store'
 
 export function useSignatureData() {
 	const { id: assinaturaId } = useParams<{ id: string }>()
 	const [searchParams] = useSearchParams()
 	const contratoId = searchParams.get('contrato')
+	const { updateData } = useSignatureStore()
 
 	const isValidParams = Boolean(assinaturaId && contratoId)
 
@@ -25,12 +28,23 @@ export function useSignatureData() {
 				assinaturaId: assinaturaId!,
 				contratoId: contratoId!,
 			})
-			.then(setData)
+			.then((response) => {
+				setData(response)
+				// Sincroniza com o store
+				updateData({
+					documentPDFUrl: response.documento.url,
+					fullName: response.signatario.nome,
+					cpf: response.signatario.documento.replace(/\D/g, ''),
+					dateOfBirth: response.signatario.nascimento
+						? isoToBR(response.signatario.nascimento)
+						: response.signatario.nascimento,
+				})
+			})
 			.catch((error: ApiError) => {
 				setError(formatErrorMessage(error))
 			})
 			.finally(() => setLoading(false))
-	}, [isValidParams, assinaturaId, contratoId])
+	}, [isValidParams, assinaturaId, contratoId, updateData])
 
 	return { data, isLoading, error }
 }
