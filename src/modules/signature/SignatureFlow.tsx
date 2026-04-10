@@ -7,6 +7,7 @@ import PhotoDocumentStep from './components/Steps/PhotoDocumentStep'
 import { ReadDocumentStep } from './components/Steps/ReadDocumentStep'
 import SelfieStep from './components/Steps/SelfieStep'
 import SignatureCaptureStep from './components/Steps/SignatureCaptureStep'
+import TokenStep from './components/Steps/TokenStep'
 import { Wizard } from './components/Wizard'
 import { dynamicResolver } from './schemas/signatureSchemas'
 import './signature.css'
@@ -41,7 +42,11 @@ const stepContent: Record<
 		index: 5,
 		component: () => <SignatureCaptureStep />,
 	},
-	token: { title: 'Token de autenticação', index: 6 },
+	token: {
+		title: 'Token de autenticação',
+		index: 6,
+		component: () => <TokenStep />,
+	},
 }
 
 export function SignatureFlow({ steps = [] }: { steps?: SignatureStep[] }) {
@@ -90,6 +95,8 @@ export function SignatureFlow({ steps = [] }: { steps?: SignatureStep[] }) {
 		() =>
 			methods.handleSubmit(
 				(formData) => {
+					console.log(formData)
+
 					updateData(formData)
 					goNext?.()
 				},

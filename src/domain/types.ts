@@ -11,6 +11,7 @@ export type SignatureData = {
 	token?: string
 	fileReadingConfirmed?: boolean
 	personalDataConfirmed?: boolean
+	tokenSent?: boolean
 }
 export type SignatureType = 'typed' | 'drawed'
 

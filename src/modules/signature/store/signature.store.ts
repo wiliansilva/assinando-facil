@@ -15,6 +15,7 @@ export const initialData: SignatureData = {
 	token: '',
 	fileReadingConfirmed: false,
 	personalDataConfirmed: false,
+	tokenSent: false,
 }
 
 export const useSignatureStore = create<SignatureState>()(

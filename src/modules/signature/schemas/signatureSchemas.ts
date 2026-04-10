@@ -13,33 +13,38 @@ export const schemasByStep = {
 	}),
 
 	confirm: z.object({
-		fullName: z.string().nonempty('Campo obrigatório'),
-		cpf: z.string().nonempty('Campo obrigatório'),
+		fullName: z.string().nonempty('Campo obrigatório!'),
+		cpf: z.string().nonempty('Campo obrigatório!'),
 		dateOfBirth: z
 			.string()
-			.nonempty('Campo obrigatório')
-			.min(8, 'Data incompleta')
-			.refine(isValidDateBR, 'Data inválida'),
+			.nonempty('Campo obrigatório!')
+			.min(8, 'Data incompleta!')
+			.refine(isValidDateBR, 'Data inválida!'),
 
 		personalDataConfirmed: z.boolean().refine((val) => val === true, {
-			message: 'Necessário confirmar para confinuar',
+			message: 'Necessário confirmar para confinuar!',
 		}),
 	}),
 
 	document: z.object({
-		documentFrontBase64: z.string().nonempty('Campo obrigatório'),
-		documentBackBase64: z.string().nonempty('Campo obrigatório'),
+		documentFrontBase64: z.string().nonempty('Campo obrigatório!'),
+		documentBackBase64: z.string().nonempty('Campo obrigatório!'),
 	}),
 
 	selfie: z.object({
-		selfieBase64: z.string().nonempty('Campo obrigatório'),
+		selfieBase64: z.string().nonempty('Campo obrigatório!'),
 	}),
 
 	signature: z.object({
-		signatureBase64: z.string().nonempty('Campo obrigatório'),
+		signatureBase64: z.string().nonempty('Campo obrigatório!'),
 	}),
 
-	token: z.object({}),
+	token: z.object({
+		token: z
+			.string()
+			.nonempty('Campo obrigatório!')
+			.min(6, 'Token incompleto!'),
+	}),
 }
 
 export const dynamicResolver: Resolver<SignatureData> = async (

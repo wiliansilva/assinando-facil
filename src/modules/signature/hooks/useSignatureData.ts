@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { formatErrorMessage } from '../../../services/errorHandler'
 import { isoToBR } from '../../../utils/dates'
-import { signatureService } from '../services/signature.service'
-import type { ApiError, GetSignatureResponse } from '../services/types'
+import { signatureService } from '../services/getSignature'
+
+import type { ApiError } from '../../../services/types'
+import type { GetSignatureResponse } from '../services/getSignature/types'
 import { useSignatureStore } from '../store/signature.store'
 
 export function useSignatureData() {
