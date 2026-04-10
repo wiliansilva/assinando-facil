@@ -1,8 +1,5 @@
 import type { AxiosError } from 'axios'
-import type {
-	ApiError,
-	ApiErrorResponse,
-} from '../modules/signature/services/types'
+import type { ApiError, ApiErrorResponse } from './types'
 
 export function extractApiError(error: unknown): ApiError {
 	// Se for um erro do axios
