@@ -43,3 +43,10 @@ export type InputMaskProps = InputHTMLAttributes<HTMLInputElement> & {
 export type InputErrorProps = {
 	errorMessage: string
 }
+
+export type TokenInputProps = {
+	length?: number
+	value: string
+	onChange: (value: string) => void
+	errors?: string
+}
