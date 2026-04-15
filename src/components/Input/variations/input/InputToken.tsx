@@ -12,7 +12,7 @@ export function TokenInput({
 
 	const handleChange = (val: string, index: number) => {
 		// aceita apenas letras e números
-		if (!/^[a-zA-Z0-9]?$/.test(val)) return
+		if (!/^[a-zA-Z]?$/.test(val)) return
 
 		const char = val.toUpperCase()
 

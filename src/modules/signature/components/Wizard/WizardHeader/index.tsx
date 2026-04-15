@@ -10,6 +10,7 @@ export function WizardHeader({
 	onDownload,
 	onBack,
 	onNext,
+	disableNext,
 }: WizardHeaderProps) {
 	const showProgress =
 		typeof stepNumber === 'number' &&
@@ -61,7 +62,7 @@ export function WizardHeader({
 							Label='Avançar'
 							type='primary'
 							onClick={onNext}
-							disabled={!isValid}
+							disabled={!isValid || disableNext}
 						/>
 					)}
 				</div>

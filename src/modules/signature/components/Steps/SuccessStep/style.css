@@ -1,0 +1,26 @@
+.success-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    height: 100vh;
+}
+
+.success-step .text {
+    color:var(--primary-font-color);
+}
+
+.success-step .text-subtitle  {
+    color: var(--secondary-font-color);
+}
+
+.success-step .wizard-check-steps__timeline {
+    margin: 0;
+}
+
+.success-step  span.wizard-check-steps__marker-check svg {
+    width: 16px;
+    height: 16px;
+    fill: #fff;
+}

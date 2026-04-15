@@ -1,11 +1,11 @@
-.photo-document-step {
+.content-step {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 16px;
 }
 
-.photo-document-step__fields {
+.content-step__fields {
     display: flex;
     flex-direction: row;
     align-items: center;

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
+import { toast } from 'sonner'
 import { formatErrorMessage } from '../../../services/errorHandler'
 import type { ApiError } from '../../../services/types'
 import { requestToken } from '../services/requestToken'
@@ -16,6 +17,7 @@ export function useToken() {
 	const [isLoading, setLoading] = useState(
 		isValidParams && !dataStore.tokenSent,
 	)
+	const [isResending, setIsResending] = useState(false)
 	const [error, setError] = useState<string | null>(
 		isValidParams ? null : 'Parâmetros inválidos na URL.',
 	)
@@ -27,9 +29,7 @@ export function useToken() {
 			contratoId: contratoId!,
 		})
 			.then(() => {
-				updateData({
-					tokenSent: true,
-				})
+				updateData({ tokenSent: true })
 			})
 			.catch((error: ApiError) => {
 				setError(formatErrorMessage(error))
@@ -43,5 +43,32 @@ export function useToken() {
 		dataStore.tokenSent,
 	])
 
-	return { isLoading, error }
+	async function resendToken() {
+		if (!isValidParams || isResending) return
+
+		setError(null)
+		setIsResending(true)
+
+		toast.promise(
+			requestToken({
+				assinaturaId: assinaturaId!,
+				contratoId: contratoId!,
+			}),
+			{
+				loading: 'Reenviando token...',
+				success: () => {
+					updateData({ tokenSent: true })
+					return 'Token reenviado com sucesso!'
+				},
+				error: (err: ApiError) => {
+					const message = formatErrorMessage(err)
+					setError(message)
+					return message
+				},
+				finally: () => setIsResending(false),
+			},
+		)
+	}
+
+	return { isLoading, isResending, error, resendToken }
 }

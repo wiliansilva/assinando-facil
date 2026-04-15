@@ -39,13 +39,13 @@ export default function SignatureCaptureStep() {
 	}
 
 	return (
-		<div className='photo-document-step'>
+		<div className='content-step'>
 			<Text
 				type={TextType.title}
 				value='Você pode desenhar sua assinatura ou gerar automaticamente a partir do seu nome.'
 			/>
 
-			<div className='photo-document-step__title'>
+			<div className='content-step__title'>
 				<Text
 					type={TextType.subTitle}
 					value='A assinatura digital possui validade jurídica.'

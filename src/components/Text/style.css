@@ -18,3 +18,13 @@
 .text-icon {
     margin-right: 8px;
 }
+
+.text a {
+    color: var(--primary-color-blue);
+    font-weight: bold;
+    transition: all 0.2s ease;
+}
+
+.text a:hover {
+	filter: brightness(1.5);
+}

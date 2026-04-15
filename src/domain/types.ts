@@ -9,6 +9,8 @@ export type SignatureData = {
 	signatureBase64?: string
 	signatureType: SignatureType
 	token?: string
+	latitude?: string
+	longitude?: string
 	fileReadingConfirmed?: boolean
 	personalDataConfirmed?: boolean
 	tokenSent?: boolean
@@ -24,6 +26,21 @@ export type SignatureStep =
 	| 'selfie'
 	| 'signature'
 	| 'token'
+	| 'success'
+
+export type SignSignaturePayload = {
+	token: string
+	signatario: {
+		documento: string
+		nascimento: string
+	}
+	latitude: string
+	longitude: string
+	autenticacao_manuscrito_base64: string
+	autenticacao_selfie_base64: string
+	autenticacao_foto_frente_base64: string
+	autenticacao_foto_verso_base64: string
+}
 
 export type SignatureState = {
 	step: SignatureStep

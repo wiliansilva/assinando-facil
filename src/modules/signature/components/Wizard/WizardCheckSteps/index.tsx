@@ -1,3 +1,5 @@
+import { mdiCheck } from '@mdi/js'
+import Icon from '@mdi/react'
 import { useEffect } from 'react'
 import { useFormContext, useWatch } from 'react-hook-form'
 import Button from '../../../../../components/Button'
@@ -85,7 +87,10 @@ export function WizardCheckSteps({ onNext }: { onNext?: () => void }) {
 									<span className='wizard-check-steps__marker'>
 										{isCompleted && (
 											<span className='wizard-check-steps__marker-check'>
-												&#10003;
+												<Icon
+													path={mdiCheck}
+													size={0.7}
+												/>
 											</span>
 										)}
 										{isActive && (

@@ -13,6 +13,8 @@ export const initialData: SignatureData = {
 	signatureBase64: '',
 	signatureType: 'drawed',
 	token: '',
+	latitude: '',
+	longitude: '',
 	fileReadingConfirmed: false,
 	personalDataConfirmed: false,
 	tokenSent: false,
@@ -41,7 +43,8 @@ export const useSignatureStore = create<SignatureState>()(
 				document: false,
 				selfie: false,
 				signature: false,
-				token: true,
+				token: false,
+				success: true,
 			},
 
 			setStepValid: (step, valid) =>
@@ -58,7 +61,7 @@ export const useSignatureStore = create<SignatureState>()(
 				return validByStep[step]
 			},
 
-			reset: () => set({ step: 'read', data: initialData }),
+			reset: () => set({}),
 		}),
 		{
 			name: 'signature-flow',

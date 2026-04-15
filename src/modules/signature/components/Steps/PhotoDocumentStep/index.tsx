@@ -31,13 +31,13 @@ export default function PhotoDocumentStep() {
 	}, [documentFrontBase64, documentBackBase64, setStepValid])
 
 	return (
-		<div className='photo-document-step'>
+		<div className='content-step'>
 			<Text
 				type={TextType.title}
 				value='Envie uma foto frente e verso do seu documento (RG, CNH ou outro documento oficial).'
 			/>
 
-			<div className='photo-document-step__title'>
+			<div className='content-step__title'>
 				<Text
 					type={TextType.title}
 					value='Antes de tirar a foto verifique:'
@@ -58,7 +58,7 @@ export default function PhotoDocumentStep() {
 				))}
 			</div>
 
-			<div className='photo-document-step__fields'>
+			<div className='content-step__fields'>
 				<PhotoCaptureField
 					label='Frente'
 					fieldName='documentFrontBase64'

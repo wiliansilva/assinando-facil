@@ -8,6 +8,7 @@ export type WizardHeaderProps = {
 	onNext?: () => void
 	onBack?: () => void
 	disableDownload?: boolean
+	disableNext?: boolean
 }
 
 export type WizardLayoutProps = {

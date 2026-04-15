@@ -5,7 +5,7 @@ export enum TextType {
 	subTitle = 'subTitle',
 }
 export type TextProps = {
-	value: string
+	value: string | ReactNode
 	type: TextType
 	icon?: ReactNode
 }
