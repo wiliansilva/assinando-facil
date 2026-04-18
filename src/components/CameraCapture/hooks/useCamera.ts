@@ -50,10 +50,14 @@ export function useCamera() {
 		const video = videoRef.current
 		if (!video) return
 
+		const MAX_WIDTH = 480
+		const scale = Math.min(1, MAX_WIDTH / video.videoWidth)
 		const canvas = document.createElement('canvas')
-		canvas.width = video.videoWidth
-		canvas.height = video.videoHeight
-		canvas.getContext('2d')?.drawImage(video, 0, 0)
+		canvas.width = Math.round(video.videoWidth * scale)
+		canvas.height = Math.round(video.videoHeight * scale)
+		canvas
+			.getContext('2d')
+			?.drawImage(video, 0, 0, canvas.width, canvas.height)
 
 		setPreview(canvas.toDataURL('image/jpeg', 0.8))
 		setState('preview')
