@@ -62,6 +62,7 @@ export function ConfirmDataStep() {
 					placeholder='Nome completo'
 					errorMessage={errors.fullName?.message}
 					required
+					disabled
 					{...register('fullName')}
 					icon={
 						<Icon
@@ -78,6 +79,7 @@ export function ConfirmDataStep() {
 					mask='000.000.000-00'
 					errorMessage={errors.cpf?.message}
 					required
+					disabled
 					{...register('cpf')}
 					icon={
 						<Icon
