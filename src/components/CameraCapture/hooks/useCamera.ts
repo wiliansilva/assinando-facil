@@ -28,6 +28,12 @@ export function useCamera() {
 		setError(null)
 
 		try {
+			if (!navigator.mediaDevices?.getUserMedia) {
+				throw new Error(
+					'Acesso à câmera requer conexão segura (HTTPS). Tente acessar via HTTPS.',
+				)
+			}
+
 			const media =
 				await navigator.mediaDevices.getUserMedia(VIDEO_CONSTRAINTS)
 			streamRef.current = media

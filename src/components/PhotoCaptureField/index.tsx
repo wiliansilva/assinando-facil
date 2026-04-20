@@ -1,4 +1,4 @@
-import { mdiAlertCircle, mdiCheckCircle } from '@mdi/js'
+import { mdiAlertCircle, mdiCamera, mdiCheckCircle } from '@mdi/js'
 import Icon from '@mdi/react'
 import { useState } from 'react'
 import { useFormContext } from 'react-hook-form'
@@ -87,8 +87,14 @@ export function PhotoCaptureField({
 			</div>
 
 			<Button
-				type='primary'
+				type='secondary'
 				Label='TIRAR FOTO'
+				icon={
+					<Icon
+						path={mdiCamera}
+						size={1}
+					/>
+				}
 				onClick={() => setCameraOpen(true)}
 			/>
 		</div>

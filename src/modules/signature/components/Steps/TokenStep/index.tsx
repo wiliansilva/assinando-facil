@@ -72,6 +72,7 @@ export default function TokenStep() {
 					type='secondary'
 					Label='Reenviar token'
 					onClick={() => resendToken()}
+					style={{ border: 'none' }}
 					icon={
 						<Icon
 							path={mdiSend}
