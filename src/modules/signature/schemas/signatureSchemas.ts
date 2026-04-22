@@ -53,9 +53,12 @@ export const dynamicResolver: Resolver<SignatureData> = async (
 	options,
 ) => {
 	const step = useSignatureStore.getState().step
-	const schema = schemasByStep[step]
+	if (!(step in schemasByStep)) {
+		return { values: data, errors: {} }
+	}
+	const schema = schemasByStep[step as keyof typeof schemasByStep]
 
-	const resolver = zodResolver(schema) as Resolver<SignatureData>
+	const resolver = zodResolver(schema) as unknown as Resolver<SignatureData>
 
 	return resolver(data, context, options)
 }

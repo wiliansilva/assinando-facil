@@ -96,7 +96,12 @@ export default function SignatureGenerator({
 
 			<canvas
 				ref={canvasRef}
-				style={{ border: '1px solid #ccc', borderRadius: 8 }}
+				style={{
+					border: '1px solid #ccc',
+					borderRadius: 8,
+					maxWidth: '100%',
+					height: 'auto',
+				}}
 			/>
 		</div>
 	)

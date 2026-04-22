@@ -42,3 +42,38 @@
 		padding: 24px;
 	}
 }
+
+/* ── MOBILE ──────────────────────────────────────────── */
+@media (max-width: 480px) {
+	.wizard-layout {
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
+		min-height: 100dvh;
+	}
+
+	.wizard-layout__sidebar {
+		order: 1;
+		border-bottom: none;
+		background: #ffffff;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+		position: sticky;
+		top: 0;
+		z-index: 200;
+	}
+
+	.wizard-layout__sidebar-inner {
+		padding: 0;
+	}
+
+	.wizard-layout__content {
+		order: 2;
+		padding: 16px 16px 80px;
+		flex: 1;
+	}
+
+	/* Padding-bottom extra na etapa "read": footer de confirmação é mais alto */
+	.wizard-layout__content[data-step='read'] {
+		padding-bottom: 148px;
+	}
+}

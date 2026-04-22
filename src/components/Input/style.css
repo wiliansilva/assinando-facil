@@ -163,3 +163,16 @@
     outline: none;
     text-transform: uppercase;
 }
+
+@media (max-width: 480px) {
+    .token-input-container {
+        gap: 8px;
+    }
+
+    .input-token {
+        width: 42px;
+        height: 48px;
+        font-size: 18px;
+        border-radius: 6px;
+    }
+}

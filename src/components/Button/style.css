@@ -19,11 +19,12 @@
 }
 
 .btn.primary:hover {
-	filter: brightness(1.5);
+	filter: brightness(1.1);
 }
 
 .btn.primary:active {
-    filter: brightness(0.8);
+    filter: brightness(0.9);
+    transform: scale(0.98);
 }
 
 .btn.secondary {
@@ -31,14 +32,16 @@
     color: var(--primary-color-blue);
     background: transparent;
 }
+
 .btn.secondary:hover {
 	background-color: var(--primary-color-blue);
 	color: #ffffff;
-	filter: brightness(1.5);
+	filter: brightness(1.1);
 }
 
 .btn.secondary:active {
-    filter: brightness(0.8);
+    filter: brightness(0.9);
+    transform: scale(0.98);
 }
 
 .btn.disabled {
@@ -49,7 +52,6 @@
 .btn svg {
     margin-right: 8px;
 }
-
 
 .btn.float {
 	position: fixed;
@@ -66,12 +68,12 @@
 }
 
 .btn.float:hover {
-	filter: brightness(1.5);
+	filter: brightness(1.1);
 	transform: scale(1.05);
 }
 
 .btn.float:active {
-	filter: brightness(0.8);
+	filter: brightness(0.9);
 	transform: scale(0.95);
 }
 
@@ -86,4 +88,26 @@
     .btn:not(.float) {
        width: 100%;
     }
+}
+
+@media (max-width: 480px) {
+	.btn {
+		font-size: 13px;
+		padding: 10px 16px;
+		min-height: 44px;
+	}
+
+	/* FAB: move para o canto inferior direito no mobile */
+	.btn.float {
+		left: auto;
+		right: 16px;
+		bottom: calc(160px + env(safe-area-inset-bottom, 0px));
+		width: 48px;
+		height: 48px;
+	}
+
+	/* Quando não estiver no step "read", o FAB fica na posição padrão inferior */
+	[data-step]:not([data-step='read']) .btn.float {
+		bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+	}
 }

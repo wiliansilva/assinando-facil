@@ -27,38 +27,46 @@ export default function SignatureCapture({
 		return canvas?.getContext('2d')
 	}
 
-	const startDrawing = (x: number, y: number) => {
+	/* Converte coordenadas CSS para coordenadas internas do canvas */
+	const toCanvasCoords = (cssX: number, cssY: number) => {
+		const canvas = canvasRef.current
+		if (!canvas) return { x: cssX, y: cssY }
+		const rect = canvas.getBoundingClientRect()
+		return {
+			x: (cssX / rect.width) * canvas.width,
+			y: (cssY / rect.height) * canvas.height,
+		}
+	}
+
+	const startDrawing = (cssX: number, cssY: number) => {
 		const ctx = getContext()
 		if (!ctx) return
-
+		const { x, y } = toCanvasCoords(cssX, cssY)
 		ctx.beginPath()
 		ctx.moveTo(x, y)
 		setIsDrawing(true)
 	}
 
-	const draw = (x: number, y: number) => {
+	const draw = (cssX: number, cssY: number) => {
 		if (!isDrawing) return
 		const ctx = getContext()
 		if (!ctx) return
-
+		const { x, y } = toCanvasCoords(cssX, cssY)
 		ctx.lineTo(x, y)
 		ctx.stroke()
 	}
 
 	const stopDrawing = () => {
 		setIsDrawing(false)
-
 		handleConfirm()
 	}
 
 	const isEmpty = () => {
 		const canvas = canvasRef.current
 		if (!canvas) return true
-
 		const blank = document.createElement('canvas')
 		blank.width = canvas.width
 		blank.height = canvas.height
-
 		return canvas.toDataURL() === blank.toDataURL()
 	}
 
@@ -66,9 +74,7 @@ export default function SignatureCapture({
 		if (!isEmpty()) {
 			const canvas = canvasRef.current
 			if (!canvas) return
-
-			const dataBase64 = canvas.toDataURL('image/png')
-			onConfirm?.(dataBase64)
+			onConfirm?.(canvas.toDataURL('image/png'))
 		}
 	}
 
@@ -76,12 +82,11 @@ export default function SignatureCapture({
 		const canvas = canvasRef.current
 		const ctx = getContext()
 		if (!canvas || !ctx) return
-
 		ctx.clearRect(0, 0, canvas.width, canvas.height)
 		onConfirm?.(null)
 	}
 
-	// Mouse events
+	/* Mouse */
 	const handleMouseDown = (e: React.MouseEvent) => {
 		startDrawing(e.nativeEvent.offsetX, e.nativeEvent.offsetY)
 	}
@@ -90,7 +95,7 @@ export default function SignatureCapture({
 		draw(e.nativeEvent.offsetX, e.nativeEvent.offsetY)
 	}
 
-	// Touch events
+	/* Touch */
 	const getTouchPos = (e: React.TouchEvent) => {
 		const rect = canvasRef.current!.getBoundingClientRect()
 		const touch = e.touches[0]
@@ -101,11 +106,13 @@ export default function SignatureCapture({
 	}
 
 	const handleTouchStart = (e: React.TouchEvent) => {
+		e.preventDefault()
 		const { x, y } = getTouchPos(e)
 		startDrawing(x, y)
 	}
 
 	const handleTouchMove = (e: React.TouchEvent) => {
+		e.preventDefault()
 		const { x, y } = getTouchPos(e)
 		draw(x, y)
 	}
@@ -113,7 +120,6 @@ export default function SignatureCapture({
 	useEffect(() => {
 		const ctx = getContext()
 		if (!ctx) return
-
 		ctx.lineWidth = 4
 		ctx.lineCap = 'round'
 		ctx.strokeStyle = '#000'
@@ -121,11 +127,9 @@ export default function SignatureCapture({
 
 	useEffect(() => {
 		if (!initialValue || !canvasRef.current) return
-
 		const canvas = canvasRef.current
 		const ctx = canvas.getContext('2d')
 		if (!ctx) return
-
 		const img = new Image()
 		img.onload = () => {
 			ctx.clearRect(0, 0, canvas.width, canvas.height)
@@ -135,35 +139,33 @@ export default function SignatureCapture({
 	}, [initialValue])
 
 	return (
-		<div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-			<>
-				<Text
-					type={TextType.subTitle}
-					value='Sua assinatura será aplicada nos locais indicados no documento e protegida contra alterações.'
-					icon={
-						<Icon
-							path={mdiInformationOutline}
-							size={1}
-							color='var(--secondary-font-color)'
-						/>
-					}
-				/>
-				<div style={{ display: 'inline-block', margin: '0 auto' }}>
-					<canvas
-						ref={canvasRef}
-						width={width}
-						height={height}
-						style={{ border: '1px solid #ccc', borderRadius: 8 }}
-						onMouseDown={handleMouseDown}
-						onMouseMove={handleMouseMove}
-						onMouseUp={stopDrawing}
-						onMouseLeave={stopDrawing}
-						onTouchStart={handleTouchStart}
-						onTouchMove={handleTouchMove}
-						onTouchEnd={stopDrawing}
+		<div className='signature-capture'>
+			<Text
+				type={TextType.subTitle}
+				value='Sua assinatura será aplicada nos locais indicados no documento e protegida contra alterações.'
+				icon={
+					<Icon
+						path={mdiInformationOutline}
+						size={1}
+						color='var(--secondary-font-color)'
 					/>
-				</div>
-			</>
+				}
+			/>
+			<div className='signature-capture__canvas-wrapper'>
+				<canvas
+					ref={canvasRef}
+					width={width}
+					height={height}
+					className='signature-capture__canvas'
+					onMouseDown={handleMouseDown}
+					onMouseMove={handleMouseMove}
+					onMouseUp={stopDrawing}
+					onMouseLeave={stopDrawing}
+					onTouchStart={handleTouchStart}
+					onTouchMove={handleTouchMove}
+					onTouchEnd={stopDrawing}
+				/>
+			</div>
 
 			<div className='signature-capture__btn-actions'>
 				<Button
@@ -176,7 +178,7 @@ export default function SignatureCapture({
 							size={1}
 						/>
 					}
-				></Button>
+				/>
 			</div>
 		</div>
 	)

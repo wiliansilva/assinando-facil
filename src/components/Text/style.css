@@ -28,3 +28,12 @@
 .text a:hover {
 	filter: brightness(1.5);
 }
+
+@media (max-width: 480px) {
+   .text-title {
+        font-size: 0.9rem;
+    }
+    .text-subtitle {
+        font-size: 0.72rem;
+    }
+}

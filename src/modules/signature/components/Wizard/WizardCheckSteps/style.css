@@ -1,3 +1,9 @@
+/* ═══════════════════════════════════════════════════════════
+   DESKTOP / TABLET — sidebar original intacto
+   ═══════════════════════════════════════════════════════════ */
+
+.wcs-mobile { display: none; }
+
 .wizard-check-steps {
 	width: 100%;
 	max-width: 320px;
@@ -22,6 +28,13 @@
 	line-height: 0.85;
 }
 
+.wizard-check-steps__logo img {
+	width: 48px;
+	height: 48px;
+	object-fit: contain;
+	border-radius: 8px;
+}
+
 .wizard-check-steps__company {
 	font-size: 1rem;
 	color: #4b5563;
@@ -41,8 +54,8 @@
 
 .wizard-check-steps__intro p {
 	font-size: 0.8rem;
-    color: var(--secondary-font-color);
-    font-weight: 400;
+	color: var(--secondary-font-color);
+	font-weight: 400;
 }
 
 .wizard-check-steps__timeline {
@@ -91,30 +104,15 @@
 	color: inherit;
 }
 
-.wizard-check-steps__item--completed {
-	color: var(--primary-font-color);
-}
-
-.wizard-check-steps__item--completed .wizard-check-steps__marker {
-	background: var(--secondary-color-green);
-}
-
-.wizard-check-steps__item--completed:not(:last-child)::after {
-	background: var(--secondary-color-green);
-}
-
-.wizard-check-steps__item--active {
-	color: var(--primary-font-color);
-}
-
+.wizard-check-steps__item--completed { color: var(--primary-font-color); }
+.wizard-check-steps__item--completed .wizard-check-steps__marker { background: var(--secondary-color-green); }
+.wizard-check-steps__item--completed:not(:last-child)::after { background: var(--secondary-color-green); }
+.wizard-check-steps__item--active { color: var(--primary-font-color); }
 .wizard-check-steps__item--active .wizard-check-steps__marker {
 	border: 4px solid var(--primary-font-color);
 	background: #f3f3f3;
 }
-
-.wizard-check-steps__item--active .wizard-check-steps__label {
-	font-weight: 700;
-}
+.wizard-check-steps__item--active .wizard-check-steps__label { font-weight: 700; }
 
 .wizard-check-steps__marker-check {
 	font-size: 1rem;
@@ -141,24 +139,266 @@
 	gap: 16px;
 }
 
+/* Nav row — desktop: apenas o botão "Começar" alinhado à direita */
+.wizard-check-steps__nav-row {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	gap: 8px;
+}
+
+.wizard-check-steps__nav-back { display: none; }
+.wizard-check-steps__nav-counter { display: none; }
+
+
+/* ═══════════════════════════════════════════════════════════
+   MOBILE (≤ 480px)
+   ═══════════════════════════════════════════════════════════ */
+
 @media (max-width: 480px) {
-	.wizard-check-steps {
-		max-width: 100%;
+
+	/* Oculta sidebar desktop, mostra bloco mobile */
+	.wcs-desktop { display: none; }
+	.wcs-mobile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+	/* ── Brand row: logo + nome ──────────────────────────── */
+	.wcs-mobile__brand {
+		display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px;
+        flex-direction: row;
 	}
 
-	.wizard-check-steps__brand {
-		margin-bottom: 36px;
+	.wcs-mobile__logo {
+		width: 80px;
+		height: auto;
+		object-fit: contain;
+		border-radius: 8px;
+		flex-shrink: 0;
 	}
 
-	.wizard-check-steps__logo-rbx {
-		font-size: 3.8rem;
+	.wcs-mobile__company {
+		font-size: 0.9rem;
+		font-weight: 700;
+		color: var(--primary-font-color);
+		line-height: 1.2;
 	}
 
-	.wizard-check-steps__logo-soft {
-		font-size: 2.7rem;
+	/* ── Subtítulo ───────────────────────────────────────── */
+	.wcs-mobile__subtitle {
+		font-size: 0.72rem;
+		color: var(--secondary-font-color);
+		font-weight: 400;
+		padding: 0 16px;
+		margin-top: 2px;
 	}
 
-	.wizard-check-steps__intro h1 {
-		font-size: 1.3rem;
+	/* ── Título da etapa atual ───────────────────────────── */
+	.wcs-mobile__step-title {
+		font-size: 1rem;
+		font-weight: 700;
+		color: var(--primary-font-color);
+		padding:0;
+		margin: 0;
+		line-height: 1.3;
+	}
+
+	/* ── Linha com dots + botão toggle ───────────────────── */
+	.wcs-mobile__collapsed-row {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		padding: 8px;
+		border-top: 1px solid #f0f0f0;
+		min-width: 100%;
+	}
+
+	.wcs-mobile__dots {
+		display: flex;
+		align-items: center;
+		flex: 1;
+		gap: 0;
+		justify-content: center;
+	}
+
+	.wcs-mobile__dot {
+		width: 9px;
+		height: 9px;
+		border-radius: 50%;
+		background: #d1d5db;
+		flex-shrink: 0;
+		transition: all 0.2s ease;
+	}
+
+	.wcs-mobile__dot--completed { background: var(--secondary-color-green); }
+	.wcs-mobile__dot--active {
+		background: var(--primary-color-blue);
+		width: 11px;
+		height: 11px;
+		box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+	}
+
+	.wcs-mobile__dot-line {
+		height: 2px;
+		flex: 1;
+		background: #e5e7eb;
+		max-width: 24px;
+		min-width: 6px;
+	}
+
+	.wcs-mobile__dot-line--completed { background: var(--secondary-color-green); }
+
+	/* ── Botão toggle (chevron) ──────────────────────────── */
+	.wcs-mobile__toggle {
+		        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: var(--primary-font-color);
+        flex-shrink: 0;
+        transition: box-shadow 0.15s ease;
+        position: absolute;
+        right: 16px;
+        bottom: -14px;
+	}
+
+	.wcs-mobile__toggle:active {
+		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+		transform: scale(0.95);
+	}
+
+	/* ── Painel expandido ────────────────────────────────── */
+	.wcs-mobile__expanded {
+		padding: 0 16px 12px;
+		border-top: 1px solid #f0f0f0;
+		padding-top: 10px;
+	}
+
+	.wcs-mobile__list {
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+		margin-bottom: 8px;
+	}
+
+	.wcs-mobile__list-item {
+		position: relative;
+		display: grid;
+		grid-template-columns: 24px 1fr;
+		align-items: center;
+		column-gap: 10px;
+		min-height: 44px;
+		color: #ccc;
+	}
+
+	.wcs-mobile__list-item:not(:last-child)::after {
+		content: '';
+		position: absolute;
+		left: 11px;
+		top: 34px;
+		width: 2px;
+		height: 20px;
+		background: #ccc;
+	}
+
+	.wcs-mobile__list-item--completed { color: var(--primary-font-color); }
+	.wcs-mobile__list-item--completed::after { background: var(--secondary-color-green) !important; }
+	.wcs-mobile__list-item--active { color: var(--primary-font-color); }
+
+	.wcs-mobile__list-marker {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 24px;
+		height: 24px;
+		border-radius: 50%;
+		background: #ccc;
+		position: relative;
+		z-index: 1;
+	}
+
+	.wcs-mobile__list-item--completed .wcs-mobile__list-marker {
+		background: var(--secondary-color-green);
+	}
+
+	.wcs-mobile__list-item--active .wcs-mobile__list-marker {
+		background: #f3f3f3;
+		border: 3px solid var(--primary-font-color);
+	}
+
+	.wcs-mobile__list-check {
+		color: #fff;
+		display: flex;
+		align-items: center;
+	}
+
+	.wcs-mobile__list-active-dots {
+		display: inline-flex;
+		gap: 2px;
+	}
+
+	.wcs-mobile__list-active-dots span {
+		width: 3px;
+		height: 3px;
+		border-radius: 50%;
+		background: var(--primary-font-color);
+	}
+
+	.wcs-mobile__list-label {
+		font-size: 0.78rem;
+		font-weight: 600;
+		color: inherit;
+	}
+
+	.wcs-mobile__list-item--active .wcs-mobile__list-label { font-weight: 700; }
+
+	.wcs-mobile__expanded-footer {
+		display: flex;
+		justify-content: flex-end;
+		margin-top: 4px;
+	}
+
+	/* ── Confirmação: footer fixo ────────────────────────── */
+	.wizard-check-steps__confirmation {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		z-index: 9998;
+		background: #ffffff;
+		padding: 14px 16px calc(14px + env(safe-area-inset-bottom, 0px));
+		box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.12);
+		border-top: 1px solid #e5e7eb;
+		gap: 12px;
+	}
+
+	/* ── Nav row dentro da confirmação (mobile) ─────────── */
+	.wizard-check-steps__nav-row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 8px;
+	}
+
+	.wizard-check-steps__nav-back {
+		min-width: 80px;
+	}
+
+	.wizard-check-steps__nav-counter {
+		flex: 1;
+		text-align: center;
+		font-size: 0.8rem;
+		color: var(--secondary-font-color);
+		font-weight: 600;
 	}
 }

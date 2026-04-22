@@ -66,3 +66,72 @@
 	transition: width 300ms ease;
 }
 
+/* Nav footer — oculto no desktop */
+.wizard-nav-footer { display: none; }
+
+/* ── MOBILE ──────────────────────────────────────────── */
+@media (max-width: 480px) {
+	/* Header oculto no mobile — título está no sidebar e navegação no footer */
+	.wizard-header {
+		display: none;
+	}
+
+	/* ── Barra de navegação fixa no rodapé ──────────────── */
+	.wizard-nav-footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		z-index: 9997;
+		background: #ffffff;
+		padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+		box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.12);
+		border-top: 1px solid #e5e7eb;
+		gap: 8px;
+	}
+
+	/* Barra de progresso no topo do footer */
+	.wizard-nav-footer__progress {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 3px;
+		background: #e9e9ea;
+		overflow: hidden;
+	}
+
+	.wizard-nav-footer__progress-bar {
+		height: 100%;
+		background: var(--primary-color-blue);
+		transition: width 300ms ease;
+	}
+
+	.wizard-nav-footer__side {
+		min-width: 90px;
+	}
+
+	.wizard-nav-footer__side--right {
+		display: flex;
+		justify-content: flex-end;
+	}
+
+	.wizard-nav-footer__center {
+		flex: 1;
+		text-align: center;
+	}
+
+	.wizard-nav-footer__counter {
+		font-size: 0.8rem;
+		color: var(--secondary-font-color);
+		font-weight: 600;
+	}
+
+	/* No read step a confirmação já fornece a navegação — oculta o footer padrão */
+	.wizard-layout__content[data-step='read'] .wizard-nav-footer {
+		display: none;
+	}
+}

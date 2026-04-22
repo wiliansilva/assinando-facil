@@ -22,10 +22,33 @@
 }
 
 .photo-document__take-image > img {
-    width: 340px;
+    width: min(340px, 100%);
     height: 200px;
     object-fit: contain;
     border-radius: 8px;
+}
+
+@media (max-width: 480px) {
+    .photo-document__take {
+        gap: 32px;
+        width: 100%;
+    }
+
+    .photo-document__take-image {
+        min-height: auto;
+        width: 100%;
+    }
+
+    .photo-document__take-image > img {
+        height: 160px;
+    }
+
+    .photo-document__take-message {
+        font-size: 0.72rem;
+    }
+    .photo-document__take > .btn {
+        margin-top: 0;
+    }
 }
 
 .photo-document__take-image > img.success {

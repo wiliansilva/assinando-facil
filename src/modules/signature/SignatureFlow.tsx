@@ -113,7 +113,10 @@ export function SignatureFlow({ steps = [] }: { steps?: SignatureStep[] }) {
 	return (
 		<FormProvider {...methods}>
 			<Wizard.Layout>
-				<main className='wizard-layout__content'>
+				<main
+					className='wizard-layout__content'
+					data-step={step}
+				>
 					<Wizard.Header
 						title={title}
 						stepNumber={currentIndex + 1}
@@ -124,7 +127,10 @@ export function SignatureFlow({ steps = [] }: { steps?: SignatureStep[] }) {
 					/>
 					<Wizard.Body>{Component && <Component />}</Wizard.Body>
 				</main>
-				<Wizard.CheckSteps onNext={handleNext} />
+				<Wizard.CheckSteps
+					onNext={handleNext}
+					onBack={goBack}
+				/>
 			</Wizard.Layout>
 		</FormProvider>
 	)

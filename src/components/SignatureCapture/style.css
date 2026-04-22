@@ -1,5 +1,34 @@
+.signature-capture {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	width: 100%;
+}
+
+.signature-capture__canvas-wrapper {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+
+.signature-capture__canvas {
+	display: block;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	touch-action: none;
+	/* Responsivo: limita a largura ao container preservando proporção */
+	max-width: 100%;
+	height: auto;
+}
+
 .signature-capture__btn-actions {
-    margin-top: 16px;
+    margin-top: 8px;
     display: flex;
     justify-content: flex-end;
+}
+
+@media (max-width: 480px) {
+	.signature-capture__canvas {
+		border-radius: 6px;
+	}
 }

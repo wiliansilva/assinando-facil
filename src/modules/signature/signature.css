@@ -13,3 +13,24 @@
     gap: 80px;
     margin-top: 32px;
 }
+
+@media (max-width: 768px) {
+    .content-step__fields {
+        flex-direction: column;
+        gap: 32px;
+        margin-top: 24px;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .content-step {
+        width: 100%;
+        align-items: stretch;
+    }
+
+    .content-step__fields {
+        gap: 24px;
+        margin-top: 16px;
+    }
+}
