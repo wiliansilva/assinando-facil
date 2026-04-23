@@ -10,6 +10,7 @@ import SignatureCaptureStep from './components/Steps/SignatureCaptureStep'
 import SuccessStep from './components/Steps/SuccessStep'
 import TokenStep from './components/Steps/TokenStep'
 import { Wizard } from './components/Wizard'
+import { useGeolocation } from './hooks/useGeolocation'
 import { useSignatureNavigation } from './hooks/useSignatureNavigation'
 import { useSignatureSubmit } from './hooks/useSignatureSubmit'
 import { dynamicResolver } from './schemas/signatureSchemas'
@@ -59,6 +60,16 @@ export function SignatureFlow({ steps = [] }: { steps?: SignatureStep[] }) {
 	const setStep = useSignatureStore((s) => s.setStep)
 	const setAvailableSteps = useSignatureStore((s) => s.setAvailableSteps)
 	const currentData = useSignatureStore((s) => s.data)
+	const updateData = useSignatureStore((s) => s.updateData)
+
+	const hasLocation = Boolean(currentData.latitude && currentData.longitude)
+	const { status: geoStatus, coords } = useGeolocation(hasLocation)
+
+	useEffect(() => {
+		if (geoStatus === 'success' && coords) {
+			updateData(coords)
+		}
+	}, [geoStatus, coords, updateData])
 
 	const [showLoadingSuccess, setShowLoadingSuccess] = useState(false)
 
