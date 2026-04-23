@@ -40,6 +40,7 @@ export type SignSignaturePayload = {
 	autenticacao_selfie_base64: string
 	autenticacao_foto_frente_base64: string
 	autenticacao_foto_verso_base64: string
+	fechamento_automatico: string
 }
 
 export type SignatureState = {

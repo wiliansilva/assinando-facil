@@ -12,6 +12,7 @@
 
 .input-checkbox .checkmark {
   width: 18px;
+  min-width: 18px;
   height: 18px;
   border: 2px solid #5f6368;
   border-radius: 2px;

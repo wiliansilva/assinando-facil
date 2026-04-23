@@ -45,5 +45,6 @@ export function buildSignSignaturePayload(
 		autenticacao_foto_verso_base64: cleanBase64(
 			data.documentBackBase64 || '',
 		),
+		fechamento_automatico: 'sim',
 	}
 }

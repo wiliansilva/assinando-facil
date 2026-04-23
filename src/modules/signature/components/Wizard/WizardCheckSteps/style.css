@@ -29,8 +29,8 @@
 }
 
 .wizard-check-steps__logo img {
-	width: 48px;
-	height: 48px;
+	width: 128px;
+	height: auto;
 	object-fit: contain;
 	border-radius: 8px;
 }
