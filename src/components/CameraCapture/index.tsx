@@ -1,4 +1,11 @@
-import { mdiCamera, mdiCameraRetake, mdiCheck } from '@mdi/js'
+import {
+	mdiCamera,
+	mdiCameraRetake,
+	mdiCheck,
+	mdiFlash,
+	mdiFlashOff,
+	mdiSync,
+} from '@mdi/js'
 import Icon from '@mdi/react'
 import Button from '../Button'
 import { useCamera } from './hooks/useCamera'
@@ -9,16 +16,22 @@ export function CameraCapture({
 	onClose,
 	onConfirm,
 	title,
+	showGuide = true,
 }: CameraCaptureProps) {
 	const {
 		videoRef,
 		state: cameraState,
 		error: cameraError,
 		preview,
+		hasTorch,
+		torchOn,
+		hasMultipleCameras,
 		capture,
 		retake,
 		confirm,
 		close,
+		toggleTorch,
+		switchCamera,
 	} = useCamera()
 
 	return (
@@ -114,6 +127,63 @@ export function CameraCapture({
 								<div className='camera-spinner' />
 							</div>
 						)}
+
+						{/* Document guide overlay */}
+						{cameraState === 'streaming' && showGuide && (
+							<div
+								className='camera-guide'
+								aria-hidden='true'
+							>
+								<div className='camera-guide-frame'>
+									<div className='camera-guide-corner camera-guide-corner--tl' />
+									<div className='camera-guide-corner camera-guide-corner--tr' />
+									<div className='camera-guide-corner camera-guide-corner--bl' />
+									<div className='camera-guide-corner camera-guide-corner--br' />
+								</div>
+								<p className='camera-guide-hint'>
+									Enquadre o documento
+								</p>
+							</div>
+						)}
+
+						{/* Torch + camera flip controls */}
+						{cameraState === 'streaming' &&
+							(hasTorch || hasMultipleCameras) && (
+								<div className='camera-viewfinder-controls'>
+									{hasTorch && (
+										<button
+											className={`camera-overlay-btn ${torchOn ? 'camera-overlay-btn--active' : ''}`}
+											onClick={toggleTorch}
+											aria-label={
+												torchOn
+													? 'Desligar lanterna'
+													: 'Ligar lanterna'
+											}
+										>
+											<Icon
+												path={
+													torchOn
+														? mdiFlashOff
+														: mdiFlash
+												}
+												size={0.8}
+											/>
+										</button>
+									)}
+									{hasMultipleCameras && (
+										<button
+											className='camera-overlay-btn'
+											onClick={switchCamera}
+											aria-label='Trocar câmera'
+										>
+											<Icon
+												path={mdiSync}
+												size={0.8}
+											/>
+										</button>
+									)}
+								</div>
+							)}
 					</div>
 
 					{/* Actions */}
@@ -162,7 +232,7 @@ export function CameraCapture({
 						{cameraState === 'error' && (
 							<Button
 								type='secondary'
-								Label='Tirar novamente'
+								Label='Tentar novamente'
 								onClick={retake}
 							/>
 						)}

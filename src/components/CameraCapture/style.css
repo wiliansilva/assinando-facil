@@ -47,7 +47,7 @@
 
 .camera-title {
     font-size: 16px;
-    color: var(    --primary-font-color);
+    color: var(--primary-font-color);
     font-weight: bold;
 }
 
@@ -60,7 +60,6 @@
         font-size: 14px;
     }
 }
-
 
 .camera-icon-btn {
     background: #f4f4f5;
@@ -106,12 +105,14 @@
 .camera-media {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     display: block;
+    background: #000;
 }
 
+/* No mirror — documents must not appear reversed */
 video.camera-media {
-    transform: scaleX(-1);
+    object-fit: cover;
 }
 
 .camera-error-overlay {
@@ -132,6 +133,7 @@ video.camera-media {
     font-size: 13px;
     color: #ccc;
     margin: 0;
+    max-width: 320px;
 }
 
 @media (max-width: 768px) {
@@ -168,6 +170,118 @@ video.camera-media {
     }
 }
 
+/* Document guide overlay */
+.camera-guide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    pointer-events: none;
+}
+
+.camera-guide-frame {
+    position: relative;
+    height: 82%;
+    aspect-ratio: 1 / 1.414;
+    max-width: 82%;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 4px;
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.35);
+}
+
+.camera-guide-corner {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    border-color: #fff;
+    border-style: solid;
+    border-width: 0;
+}
+
+.camera-guide-corner--tl {
+    top: -1px;
+    left: -1px;
+    border-top-width: 3px;
+    border-left-width: 3px;
+    border-top-left-radius: 4px;
+}
+
+.camera-guide-corner--tr {
+    top: -1px;
+    right: -1px;
+    border-top-width: 3px;
+    border-right-width: 3px;
+    border-top-right-radius: 4px;
+}
+
+.camera-guide-corner--bl {
+    bottom: -1px;
+    left: -1px;
+    border-bottom-width: 3px;
+    border-left-width: 3px;
+    border-bottom-left-radius: 4px;
+}
+
+.camera-guide-corner--br {
+    bottom: -1px;
+    right: -1px;
+    border-bottom-width: 3px;
+    border-right-width: 3px;
+    border-bottom-right-radius: 4px;
+}
+
+.camera-guide-hint {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(0, 0, 0, 0.45);
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin: 0;
+    letter-spacing: 0.01em;
+}
+
+/* Torch + camera flip overlay controls */
+.camera-viewfinder-controls {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.camera-overlay-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: none;
+    background: var(--primary-color-blue);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    transition: background 0.15s;
+}
+
+.camera-overlay-btn:hover {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.camera-overlay-btn--active {
+    background: rgba(255, 220, 0, 0.85);
+    color: #111;
+}
+
+.camera-overlay-btn--active:hover {
+    background: rgba(255, 220, 0, 1);
+}
+
+/* Actions bar */
 .camera-actions {
     display: flex;
     gap: 10px;
