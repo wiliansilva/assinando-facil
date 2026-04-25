@@ -1,0 +1,134 @@
+@keyframes sk-shimmer {
+	0% { background-position: -400px 0; }
+	100% { background-position: 400px 0; }
+}
+
+.sk-pulse {
+	background: linear-gradient(90deg, #e0e0e0 8%, #efefef 38%, #e0e0e0 54%);
+	background-size: 600px 100%;
+	animation: sk-shimmer 1.4s ease infinite;
+	border-radius: 5px;
+}
+
+/* ── Header ──────────────────────────────────────────── */
+.sk-btn {
+	width: 88px;
+	height: 36px;
+	border-radius: 6px;
+}
+
+.sk-title {
+	width: 210px;
+	height: 20px;
+	margin: 0 auto 8px;
+}
+
+.sk-step-counter {
+	width: 100px;
+	height: 13px;
+	margin: 0 auto;
+}
+
+/* ── Body ────────────────────────────────────────────── */
+.sk-body-content {
+	width: 100%;
+	max-width: 920px;
+}
+
+.sk-body-heading {
+	width: 240px;
+	height: 22px;
+	margin-bottom: 32px;
+}
+
+.sk-fields {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	width: 100%;
+}
+
+.sk-field {
+	display: flex;
+	flex-direction: column;
+	gap: 7px;
+}
+
+.sk-label {
+	width: 110px;
+	height: 12px;
+}
+
+.sk-input {
+	width: 100%;
+	height: 44px;
+	border-radius: 8px;
+}
+
+.sk-block {
+	width: 100%;
+	height: 110px;
+	border-radius: 8px;
+}
+
+/* ── Desktop sidebar ─────────────────────────────────── */
+.sk-logo {
+	width: 128px;
+	height: 60px;
+	border-radius: 8px;
+	margin-bottom: 4px;
+}
+
+.sk-company-name {
+	width: 120px;
+	height: 13px;
+}
+
+.sk-intro-title {
+	width: 130px;
+	height: 15px;
+	margin-bottom: 10px;
+}
+
+.sk-intro-sub {
+	width: 196px;
+	height: 12px;
+}
+
+.sk-step-label {
+	width: 150px;
+	height: 12px;
+}
+
+/* ── Mobile sidebar ──────────────────────────────────── */
+.sk-logo-mobile {
+	width: 80px;
+	height: 38px;
+	border-radius: 8px;
+	flex-shrink: 0;
+}
+
+.sk-company-mobile {
+	width: 96px;
+	height: 13px;
+}
+
+.sk-step-title-mobile {
+	width: 190px;
+	height: 15px;
+	margin: 4px 16px 0;
+	align-self: flex-start;
+}
+
+/* ── Mobile nav footer ───────────────────────────────── */
+.sk-btn-mobile {
+	width: 72px;
+	height: 36px;
+	border-radius: 6px;
+}
+
+.sk-counter-mobile {
+	width: 80px;
+	height: 13px;
+	margin: 0 auto;
+}

@@ -1,5 +1,6 @@
 // src/modules/signature/SignaturePage.tsx
 import { useMemo } from 'react'
+import { SignatureSkeleton } from './components/SignatureSkeleton'
 import { useSignatureData } from './hooks/useSignatureData'
 import { useToken } from './hooks/useToken'
 import { SignatureFlow } from './SignatureFlow'
@@ -13,7 +14,7 @@ export function SignaturePage() {
 	)
 	const { isLoading: isTokenLoading, error: tokenError } = useToken()
 
-	if (isLoading || isTokenLoading) return <div>Carregando...</div>
+	if (isLoading || isTokenLoading) return <SignatureSkeleton />
 	if (error || tokenError || !data)
 		return <div>{error ?? tokenError ?? 'Dados não encontrados.'}</div>
 

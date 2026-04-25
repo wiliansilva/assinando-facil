@@ -4,6 +4,7 @@ import 'react-pdf/dist/Page/AnnotationLayer.css'
 import 'react-pdf/dist/Page/TextLayer.css'
 
 import pdfWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url'
+import { SignatureSkeletonBody } from '../../modules/signature/components/SignatureSkeleton'
 import './style.css'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `${pdfWorker}?v=${pdfjs.version}`
@@ -54,6 +55,7 @@ export default function PdfViewer({ file }: { file: string }) {
 				file={file}
 				onLoadSuccess={({ numPages }) => setNumPages(numPages)}
 				className='pdf-viewer__document'
+				loading={<SignatureSkeletonBody />}
 			>
 				{Array.from({ length: numPages }, (_, index) => (
 					<Page
