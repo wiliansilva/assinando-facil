@@ -13,7 +13,6 @@ export function PhotoCaptureField({
 	fieldName,
 	placeholderSrc,
 	cameraTitle,
-	showGuide = true,
 }: PhotoCaptureFieldProps) {
 	const [cameraOpen, setCameraOpen] = useState(false)
 
@@ -83,7 +82,6 @@ export function PhotoCaptureField({
 						title={cameraTitle}
 						onClose={() => setCameraOpen(false)}
 						onConfirm={handleConfirm}
-						showGuide={showGuide}
 					/>
 				)}
 			</div>

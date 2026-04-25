@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { useSignatureStore } from '../../../modules/signature/store/signature.store'
 import type { CameraState } from '../types'
 
 type FacingMode = 'environment' | 'user'
@@ -42,6 +43,20 @@ function parseError(err: unknown): string {
 	return 'Não foi possível acessar a câmera.'
 }
 
+// Proporção do guide de documento (A4 retrato)
+const DOCUMENT_ASPECT = 1 / 1.414
+
+function rotateCanvas90(src: HTMLCanvasElement): HTMLCanvasElement {
+	const dst = document.createElement('canvas')
+	dst.width = src.height
+	dst.height = src.width
+	const ctx = dst.getContext('2d')!
+	ctx.translate(dst.width / 2, dst.height / 2)
+	ctx.rotate(-Math.PI / 2)
+	ctx.drawImage(src, -src.width / 2, -src.height / 2)
+	return dst
+}
+
 export function useCamera() {
 	const videoRef = useRef<HTMLVideoElement | null>(null)
 	const streamRef = useRef<MediaStream | null>(null)
@@ -55,6 +70,8 @@ export function useCamera() {
 	const [hasTorch, setHasTorch] = useState(false)
 	const [torchOn, setTorchOn] = useState(false)
 	const [hasMultipleCameras, setHasMultipleCameras] = useState(false)
+
+	const step = useSignatureStore((s) => s.step)
 
 	const stopStream = useCallback(() => {
 		streamRef.current?.getTracks().forEach((t) => t.stop())
@@ -82,7 +99,9 @@ export function useCamera() {
 			setHasMultipleCameras(videoDevices.length > 1)
 
 			const media = await navigator.mediaDevices.getUserMedia(
-				buildConstraints(facingRef.current),
+				buildConstraints(
+					step === 'selfie' ? 'user' : facingRef.current,
+				),
 			)
 			streamRef.current = media
 
@@ -101,25 +120,66 @@ export function useCamera() {
 		} finally {
 			isInitializing.current = false
 		}
-	}, [])
+	}, [step])
 
 	const capture = useCallback(() => {
 		const video = videoRef.current
 		if (!video) return
 
-		const MAX_WIDTH = 480
-		const scale = Math.min(1, MAX_WIDTH / video.videoWidth)
 		const canvas = document.createElement('canvas')
-		canvas.width = Math.round(video.videoWidth * scale)
-		canvas.height = Math.round(video.videoHeight * scale)
-		canvas
-			.getContext('2d')
-			?.drawImage(video, 0, 0, canvas.width, canvas.height)
+		const ctx = canvas.getContext('2d')
+		if (!ctx) return
 
-		setPreview(canvas.toDataURL('image/jpeg', 0.92))
+		const vw = video.videoWidth
+		const vh = video.videoHeight
+
+		let sx: number, sy: number, sw: number, sh: number
+
+		if (step === 'document') {
+			// Recorta o centro do frame na proporção A4 retrato (mesma do guide)
+			if (vw / vh > DOCUMENT_ASPECT) {
+				sh = vh
+				sw = vh * DOCUMENT_ASPECT
+				sx = (vw - sw) / 2
+				sy = 0
+			} else {
+				sw = vw
+				sh = vw / DOCUMENT_ASPECT
+				sx = 0
+				sy = (vh - sh) / 2
+			}
+
+			const MAX_WIDTH = 800
+			const scale = Math.min(1, MAX_WIDTH / sw)
+			canvas.width = Math.round(sw * scale)
+			canvas.height = Math.round(sh * scale)
+			ctx.drawImage(
+				video,
+				sx,
+				sy,
+				sw,
+				sh,
+				0,
+				0,
+				canvas.width,
+				canvas.height,
+			)
+
+			const result = rotateCanvas90(canvas)
+
+			setPreview(result.toDataURL('image/jpeg', 0.92))
+		} else {
+			const MAX_WIDTH = 480
+			const scale = Math.min(1, MAX_WIDTH / vw)
+			canvas.width = Math.round(vw * scale)
+			canvas.height = Math.round(vh * scale)
+			ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+
+			setPreview(canvas.toDataURL('image/jpeg', 0.92))
+		}
 		setState('preview')
 		stopStream()
-	}, [stopStream])
+	}, [step, stopStream])
 
 	const toggleTorch = useCallback(async () => {
 		const track = streamRef.current?.getVideoTracks()[0]

@@ -58,7 +58,6 @@ export default function SelfieStep() {
 					fieldName='selfieBase64'
 					placeholderSrc='/assets/selfie-placeholder.png'
 					cameraTitle='Selfie com o documento'
-					showGuide={false}
 				/>
 			</div>
 		</div>

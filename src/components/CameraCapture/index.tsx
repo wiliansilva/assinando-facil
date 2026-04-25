@@ -7,6 +7,7 @@ import {
 	mdiSync,
 } from '@mdi/js'
 import Icon from '@mdi/react'
+import { useSignatureStore } from '../../modules/signature/store/signature.store'
 import Button from '../Button'
 import { useCamera } from './hooks/useCamera'
 import './style.css'
@@ -16,7 +17,6 @@ export function CameraCapture({
 	onClose,
 	onConfirm,
 	title,
-	showGuide = true,
 }: CameraCaptureProps) {
 	const {
 		videoRef,
@@ -33,6 +33,8 @@ export function CameraCapture({
 		toggleTorch,
 		switchCamera,
 	} = useCamera()
+
+	const step = useSignatureStore((s) => s.step)
 
 	return (
 		<>
@@ -129,7 +131,7 @@ export function CameraCapture({
 						)}
 
 						{/* Document guide overlay */}
-						{cameraState === 'streaming' && showGuide && (
+						{cameraState === 'streaming' && step === 'document' && (
 							<div
 								className='camera-guide'
 								aria-hidden='true'

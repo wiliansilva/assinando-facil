@@ -8,5 +8,4 @@ export type PhotoCaptureFieldProps = {
 	>
 	placeholderSrc: string
 	cameraTitle: string
-	showGuide?: boolean
 }
