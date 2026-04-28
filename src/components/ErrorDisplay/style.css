@@ -1,0 +1,102 @@
+.error-display {
+	display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: #ffffff;
+}
+
+.error-display__card {
+	display: flex;
+    flex-direction: row;
+    gap: 48px;
+    border-radius: 24px;
+    width: 60%;
+}
+
+.error-display__content {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+	text-align: left;
+	flex: 1;
+	min-width: 0;
+	gap: 16px;
+}
+
+.error-display__badge {
+	display: inline-flex;
+	align-items: center;
+	padding: 4px 12px;
+	background: #fee2e2;
+	color: #dc2626;
+	border-radius: 999px;
+	font-size: 0.75rem;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.error-display__title {
+	font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-font-color);
+    line-height: 1.5;
+}
+
+.error-display__message {
+	font-size: 1rem;
+    font-weight: 500;
+    color: var(--secondary-font-color);
+    line-height: 1.3;
+}
+
+p.error-display__message a {
+    color: var(--primary-color-blue);
+    font-weight: bold;
+}
+
+p.error-display__message a:hover {
+	filter: brightness(1.1);
+}
+
+p.error-display__message a:active {
+    filter: brightness(0.9);
+    transform: scale(0.98);
+}
+
+.error-display__image-wrapper {
+	flex: 1;
+}
+
+.error-display__image {
+	width: 100%;
+	height: auto;
+	display: block;
+}
+
+
+
+@media (max-width: 720px) {
+	.error-display__card {
+		flex-direction: column-reverse;
+		align-items: center;
+		text-align: center;
+		padding: 40px 28px 36px;
+		gap: 80px;
+	}
+
+	.error-display__message {
+		max-width: 100%;
+	}
+
+	.error-display__image-wrapper {
+		width: 220px;
+	}
+
+	.error-display__title {
+		font-size: 1.6rem;
+	}
+}

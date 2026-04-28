@@ -21,6 +21,7 @@ export function useToken() {
 	const [error, setError] = useState<string | null>(
 		isValidParams ? null : 'Parâmetros inválidos na URL.',
 	)
+	const [errorCode, setErrorCode] = useState<number | null>(0)
 
 	useEffect(() => {
 		if (!isValidParams || dataStore.tokenSent) return
@@ -63,6 +64,7 @@ export function useToken() {
 				error: (err: ApiError) => {
 					const message = formatErrorMessage(err)
 					setError(message)
+					setErrorCode(err.statusCode ?? 0)
 					return message
 				},
 				finally: () => setIsResending(false),
@@ -70,5 +72,5 @@ export function useToken() {
 		)
 	}
 
-	return { isLoading, isResending, error, resendToken }
+	return { isLoading, isResending, error, errorCode, resendToken }
 }

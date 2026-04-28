@@ -18,6 +18,7 @@ export function useSignatureData() {
 
 	const [data, setData] = useState<GetSignatureResponse | null>(null)
 	const [isLoading, setLoading] = useState(isValidParams)
+	const [errorCode, setErrorCode] = useState<number | null>(0)
 	const [error, setError] = useState<string | null>(
 		isValidParams ? null : 'Parâmetros inválidos na URL.',
 	)
@@ -44,9 +45,10 @@ export function useSignatureData() {
 			})
 			.catch((error: ApiError) => {
 				setError(formatErrorMessage(error))
+				setErrorCode(error.statusCode || null)
 			})
 			.finally(() => setLoading(false))
 	}, [isValidParams, assinaturaId, contratoId, updateData])
 
-	return { data, isLoading, error }
+	return { data, isLoading, error, errorCode }
 }
