@@ -51,6 +51,8 @@ export function PhotoCaptureField({
 						<img
 							src={capturedImage}
 							className={hasError ? 'error' : 'success'}
+							loading='lazy'
+							alt='Foto capturada'
 						/>
 						<div className='photo-document__take-message success'>
 							<Icon
@@ -63,7 +65,11 @@ export function PhotoCaptureField({
 					</>
 				) : (
 					<>
-						<img src={placeholderSrc} />
+						<img
+							src={placeholderSrc}
+							loading='lazy'
+							alt='Foto placeholder'
+						/>
 						{hasError && (
 							<div className='photo-document__take-message error'>
 								<Icon

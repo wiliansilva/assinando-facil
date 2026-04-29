@@ -79,6 +79,7 @@ export function CameraCapture({
 						{cameraState === 'preview' && preview ? (
 							<img
 								src={preview}
+								loading='lazy'
 								alt='Prévia da foto'
 								className='camera-media'
 							/>

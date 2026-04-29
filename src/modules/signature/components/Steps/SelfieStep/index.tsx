@@ -56,7 +56,7 @@ export default function SelfieStep() {
 				<PhotoCaptureField
 					label=''
 					fieldName='selfieBase64'
-					placeholderSrc='/assets/selfie-placeholder.png'
+					placeholderSrc='../src/assets/selfie-placeholder.webp'
 					cameraTitle='Selfie com o documento'
 				/>
 			</div>

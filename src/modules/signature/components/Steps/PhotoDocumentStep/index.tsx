@@ -62,13 +62,13 @@ export default function PhotoDocumentStep() {
 				<PhotoCaptureField
 					label='Frente'
 					fieldName='documentFrontBase64'
-					placeholderSrc='/assets/document-front-placeholder.png'
+					placeholderSrc='../src/assets/document-front-placeholder.webp'
 					cameraTitle='Frente do seu documento'
 				/>
 				<PhotoCaptureField
 					label='Verso'
 					fieldName='documentBackBase64'
-					placeholderSrc='/assets/document-back-placeholder.png'
+					placeholderSrc='../src/assets/document-back-placeholder.webp'
 					cameraTitle='Verso do seu documento'
 				/>
 			</div>

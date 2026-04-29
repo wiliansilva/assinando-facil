@@ -72,6 +72,7 @@ export function WizardCheckSteps({
 								src='https://rbxsoft.com/wp-content/uploads/2023/05/cropped-RBXSoft-Padrao.png'
 								alt='Logo'
 								className='wcs-mobile__logo'
+								loading='lazy'
 							/>
 							<span className='wcs-mobile__company'>
 								RBXSoft Company
@@ -214,7 +215,11 @@ export function WizardCheckSteps({
 								aria-hidden='true'
 								className='wizard-check-steps__logo'
 							>
-								<img src='https://rbxsoft.com/wp-content/uploads/2023/05/cropped-RBXSoft-Padrao.png' />
+								<img
+									src='https://rbxsoft.com/wp-content/uploads/2023/05/cropped-RBXSoft-Padrao.png'
+									loading='lazy'
+									alt='Logo'
+								/>
 							</div>
 							<p className='wizard-check-steps__company'>
 								RBXSoft Company

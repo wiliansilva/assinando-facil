@@ -76,8 +76,9 @@ export function ErrorDisplay({
 				</div>
 				<div className='error-display__image-wrapper'>
 					<img
-						src='/assets/404-illustration.png'
+						src='./src/assets/404-illustration.webp'
 						alt='Ilustração de erro'
+						loading='lazy'
 						className='error-display__image'
 					/>
 				</div>
