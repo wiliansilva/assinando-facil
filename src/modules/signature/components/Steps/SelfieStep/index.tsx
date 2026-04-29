@@ -2,6 +2,7 @@ import { mdiCheck } from '@mdi/js'
 import Icon from '@mdi/react'
 import { useEffect } from 'react'
 import { useFormContext, useWatch } from 'react-hook-form'
+import selfiePlaceholder from '../../../../../assets/selfie-placeholder.webp'
 import { PhotoCaptureField } from '../../../../../components/PhotoCaptureField'
 import Text from '../../../../../components/Text'
 import { TextType } from '../../../../../components/Text/types'
@@ -56,7 +57,7 @@ export default function SelfieStep() {
 				<PhotoCaptureField
 					label=''
 					fieldName='selfieBase64'
-					placeholderSrc='../src/assets/selfie-placeholder.webp'
+					placeholderSrc={selfiePlaceholder}
 					cameraTitle='Selfie com o documento'
 				/>
 			</div>

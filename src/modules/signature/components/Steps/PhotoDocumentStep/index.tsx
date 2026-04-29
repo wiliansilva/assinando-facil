@@ -2,6 +2,8 @@ import { mdiCheck } from '@mdi/js'
 import Icon from '@mdi/react'
 import { useEffect } from 'react'
 import { useFormContext, useWatch } from 'react-hook-form'
+import documentBackPlaceholder from '../../../../../assets/document-back-placeholder.webp'
+import documentFrontPlaceholder from '../../../../../assets/document-front-placeholder.webp'
 import { PhotoCaptureField } from '../../../../../components/PhotoCaptureField'
 import Text from '../../../../../components/Text'
 import { TextType } from '../../../../../components/Text/types'
@@ -62,13 +64,13 @@ export default function PhotoDocumentStep() {
 				<PhotoCaptureField
 					label='Frente'
 					fieldName='documentFrontBase64'
-					placeholderSrc='../src/assets/document-front-placeholder.webp'
+					placeholderSrc={documentFrontPlaceholder}
 					cameraTitle='Frente do seu documento'
 				/>
 				<PhotoCaptureField
 					label='Verso'
 					fieldName='documentBackBase64'
-					placeholderSrc='../src/assets/document-back-placeholder.webp'
+					placeholderSrc={documentBackPlaceholder}
 					cameraTitle='Verso do seu documento'
 				/>
 			</div>

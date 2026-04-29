@@ -1,5 +1,6 @@
 import { mdiRefresh } from '@mdi/js'
 import Icon from '@mdi/react'
+import errorIllustration from '../../assets/404-illustration.webp'
 import Button from '../Button'
 import './style.css'
 
@@ -76,7 +77,7 @@ export function ErrorDisplay({
 				</div>
 				<div className='error-display__image-wrapper'>
 					<img
-						src='./src/assets/404-illustration.webp'
+						src={errorIllustration}
 						alt='Ilustração de erro'
 						loading='lazy'
 						className='error-display__image'
