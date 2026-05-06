@@ -86,7 +86,7 @@ export default function TokenStep() {
 						<>
 							Ao finalizar, você aceita nossos{' '}
 							<a
-								href='/termos-de-uso'
+								href='https://assinandofacil.com/termos-de-uso'
 								target='_blank'
 								rel='noopener noreferrer'
 							>
@@ -94,7 +94,7 @@ export default function TokenStep() {
 							</a>{' '}
 							e{' '}
 							<a
-								href='/politica-de-privacidade'
+								href='https://assinandofacil.com/politica-de-privacidade'
 								target='_blank'
 								rel='noopener noreferrer'
 							>
