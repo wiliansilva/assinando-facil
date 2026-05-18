@@ -1,0 +1,239 @@
+.fmc-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 16px;
+}
+
+@media (max-width: 768px) {
+    .fmc-overlay {
+        padding: 0;
+    }
+}
+
+.fmc-modal {
+    background: #fff;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 70%;
+    height: 90%;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 768px) {
+    .fmc-modal {
+        max-width: 100%;
+        height: 100%;
+        border-radius: 0;
+        box-shadow: none;
+    }
+}
+
+/* Header */
+.fmc-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    .fmc-header {
+        padding: 12px 16px;
+    }
+}
+
+.fmc-title {
+    font-size: 16px;
+    color: var(--primary-font-color);
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .fmc-title {
+        font-size: 14px;
+    }
+}
+
+.fmc-close-btn {
+    background: #f4f4f5;
+    border: none;
+    border-radius: 8px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #666;
+    transition: background 0.15s;
+}
+
+.fmc-close-btn:hover {
+    background: #e4e4e7;
+    color: #111;
+}
+
+/* Viewfinder */
+.fmc-viewfinder {
+    position: relative;
+    width: 100%;
+    flex: 1;
+    background: #111;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fmc-media {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.fmc-media--mirror {
+    transform: scaleX(-1);
+}
+
+/* Canvas overlay for face mesh — mirrors the video */
+.fmc-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    transform: scaleX(-1);
+}
+
+/* Oval guide SVG — full size overlay, not mirrored (symmetric) */
+.fmc-guide-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+/* Loading */
+.fmc-loading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #111;
+}
+
+.fmc-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid rgba(255, 255, 255, 0.15);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: fmc-spin 0.7s linear infinite;
+}
+
+@keyframes fmc-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Error */
+.fmc-error {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: #fff;
+    padding: 24px;
+    text-align: center;
+}
+
+.fmc-error p {
+    font-size: 14px;
+    color: #ccc;
+    margin: 0;
+    max-width: 320px;
+}
+
+/* Status label */
+.fmc-status {
+    font-family: system-ui, sans-serif;
+    font-size: 13px;
+    color: #666;
+    text-align: center;
+    padding: 10px 20px 4px;
+    margin: 0;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: color 0.25s;
+}
+
+.fmc-status::before {
+    content: '';
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #d1d5db;
+    flex-shrink: 0;
+    transition: background 0.25s;
+}
+
+.fmc-status--warning {
+    color: #d97706;
+    font-weight: 500;
+}
+
+.fmc-status--warning::before {
+    background: #d97706;
+}
+
+.fmc-status--detected {
+    color: #16a34a;
+    font-weight: 500;
+}
+
+.fmc-status--detected::before {
+    background: #16a34a;
+}
+
+/* Actions bar */
+.fmc-actions {
+    display: flex;
+    gap: 10px;
+    padding: 12px 20px 16px;
+    justify-content: center;
+    border-top: 1px solid #f0f0f0;
+    min-height: 64px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    .fmc-actions {
+        padding: 10px 16px 12px;
+        gap: 8px;
+        min-height: auto;
+        flex-direction: column;
+    }
+}

@@ -6,6 +6,7 @@ export type SignatureData = {
 	documentFrontBase64?: string
 	documentBackBase64?: string
 	selfieBase64?: string
+	recognitionBase64?: string
 	signatureBase64?: string
 	signatureType: SignatureType
 	token?: string
@@ -24,6 +25,7 @@ export type SignatureStep =
 	| 'confirm'
 	| 'document'
 	| 'selfie'
+	| 'recognition'
 	| 'signature'
 	| 'token'
 	| 'success'

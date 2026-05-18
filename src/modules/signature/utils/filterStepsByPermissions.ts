@@ -5,6 +5,7 @@ const ALL_STEPS: SignatureStep[] = [
 	'confirm',
 	'document',
 	'selfie',
+	'recognition',
 	'signature',
 	'token',
 ]

@@ -69,7 +69,6 @@
   color: var(--secondary-color-green);
   font-size: 16px;
   font-weight: 600;
-  font-family: system-ui, sans-serif;
   animation: lc-rise 0.4s 0.55s both;
 }
 

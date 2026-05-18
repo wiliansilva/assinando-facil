@@ -13,6 +13,7 @@ const flowSteps: { key: SignatureStep; label: string }[] = [
 	{ key: 'read', label: 'Leia o documento com atenção' },
 	{ key: 'confirm', label: 'Confirme seus dados' },
 	{ key: 'document', label: 'Foto do documento oficial' },
+	{ key: 'recognition', label: 'Reconhecimento facial' },
 	{ key: 'selfie', label: 'Selfie com o documento' },
 	{ key: 'signature', label: 'Assinatura Manuscrita' },
 	{ key: 'token', label: 'Token de autenticação' },

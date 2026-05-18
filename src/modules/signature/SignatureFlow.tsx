@@ -5,6 +5,7 @@ import type { SignatureData, SignatureStep } from '../../domain/types'
 import { ConfirmDataStep } from './components/Steps/ConfirmDataStep'
 import PhotoDocumentStep from './components/Steps/PhotoDocumentStep'
 import { ReadDocumentStep } from './components/Steps/ReadDocumentStep'
+import RecognitionStep from './components/Steps/RecognitionStep'
 import SelfieStep from './components/Steps/SelfieStep'
 import SignatureCaptureStep from './components/Steps/SignatureCaptureStep'
 import SuccessStep from './components/Steps/SuccessStep'
@@ -45,13 +46,18 @@ const stepContent: Record<SignatureStep, StepConfig> = {
 		index: 4,
 		Component: SelfieStep,
 	},
+	recognition: {
+		title: 'Reconhecimento facial',
+		index: 5,
+		Component: RecognitionStep,
+	},
 	signature: {
 		title: 'Assinatura Manuscrita',
-		index: 5,
+		index: 6,
 		Component: SignatureCaptureStep,
 	},
-	token: { title: 'Token de autenticação', index: 6, Component: TokenStep },
-	success: { title: 'Sucesso', index: 7, Component: SuccessStep },
+	token: { title: 'Token de autenticação', index: 7, Component: TokenStep },
+	success: { title: 'Sucesso', index: 8, Component: SuccessStep },
 }
 
 // SignatureFlow.tsx — componente limpo

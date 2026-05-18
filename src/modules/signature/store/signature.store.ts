@@ -42,6 +42,7 @@ export const useSignatureStore = create<SignatureState>()(
 				confirm: false,
 				document: false,
 				selfie: false,
+				recognition: false,
 				signature: false,
 				token: false,
 				success: true,

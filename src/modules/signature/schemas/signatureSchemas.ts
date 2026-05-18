@@ -35,6 +35,10 @@ export const schemasByStep = {
 		selfieBase64: z.string().nonempty('Campo obrigatório!'),
 	}),
 
+	recognition: z.object({
+		recognitionBase64: z.string().nonempty('Campo obrigatório!'),
+	}),
+
 	signature: z.object({
 		signatureBase64: z.string().nonempty('Campo obrigatório!'),
 	}),
