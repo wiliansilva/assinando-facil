@@ -1,6 +1,6 @@
 import { mdiAccountCircle } from '@mdi/js'
 import Icon from '@mdi/react'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Input } from '../Input'
 
 type SignatureGeneratorProps = {
@@ -21,7 +21,7 @@ export default function SignatureGenerator({
 	const [text, setText] = useState(initialValue || 'Seu Nome')
 	const [fontSize, setFontSize] = useState(48)
 
-	const drawSignature = () => {
+	const drawSignature = useCallback(async () => {
 		const canvas = canvasRef.current
 		if (!canvas) return
 
@@ -33,16 +33,17 @@ export default function SignatureGenerator({
 
 		ctx.clearRect(0, 0, canvas.width, canvas.height)
 
+		await document.fonts.load(`${fontSize}px Pacifico`)
+
 		ctx.fillStyle = '#000'
 		ctx.textAlign = 'center'
 		ctx.textBaseline = 'middle'
-
 		ctx.font = `${fontSize}px Pacifico, cursive`
 
 		ctx.fillText(text, canvas.width / 2, canvas.height / 2)
-	}
+	}, [width, height, fontSize, text])
 
-	const isEmpty = () => {
+	const isEmpty = useCallback(() => {
 		const canvas = canvasRef.current
 		if (!canvas) return true
 
@@ -51,9 +52,9 @@ export default function SignatureGenerator({
 		blank.height = canvas.height
 
 		return canvas.toDataURL() === blank.toDataURL()
-	}
+	}, [canvasRef])
 
-	const handleConfirm = () => {
+	const handleConfirm = useCallback(() => {
 		if (!isEmpty()) {
 			const canvas = canvasRef.current
 			if (!canvas) return
@@ -63,11 +64,11 @@ export default function SignatureGenerator({
 		} else {
 			onConfirm?.(null)
 		}
-	}
+	}, [isEmpty, onConfirm])
 
 	useEffect(() => {
-		drawSignature()
-		handleConfirm()
+		drawSignature().then(() => handleConfirm())
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [text, fontSize])
 
 	return (
