@@ -15,6 +15,7 @@ const CHECKLIST_ITEMS = [
 	'Documento inteiro na imagem',
 	'Sem reflexos',
 	'Texto legível',
+	'Envie um documento com foto e CPF',
 ]
 
 export default function PhotoDocumentStep() {

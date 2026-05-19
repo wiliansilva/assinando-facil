@@ -14,7 +14,7 @@ import { useSignatureStore } from '../../../store/signature.store'
 const CHECKLIST_ITEMS = [
 	'Mantenha o rosto iluminado e sem óculos escuros.',
 	'Olhe diretamente para a câmera.',
-	'Mantenha o rosto dentro da guia.',
+	'Mantenha o rosto dentro da guia oval.',
 ]
 
 export default function RecognitionStep() {
@@ -43,7 +43,7 @@ export default function RecognitionStep() {
 		<div className='content-step'>
 			<Text
 				type={TextType.title}
-				value='Vamos verificar sua identidade com reconhecimento facial.'
+				value='Vamos verificar sua identidade com reconhecimento facial com base na foto do seu documento.'
 			/>
 
 			<div className='content-step__title'>
