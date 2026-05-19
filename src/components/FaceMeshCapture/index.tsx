@@ -94,6 +94,89 @@ function areEyesOpen(landmarks: NormalizedLandmark[]): boolean {
 	return leftEAR > 0.1 && rightEAR > 0.1
 }
 
+type ImageQualityIssue =
+	| 'too_blurry'
+	| 'too_dark'
+	| 'too_bright'
+	| 'low_contrast'
+
+const QUALITY_MESSAGES: Record<ImageQualityIssue, string> = {
+	too_blurry: 'Imagem desfocada — mantenha a câmera firme',
+	too_dark: 'Imagem muito escura — melhore a iluminação',
+	too_bright: 'Imagem muito clara — evite luz direta na câmera',
+	low_contrast: 'Contraste insuficiente — verifique a iluminação',
+}
+
+// Analisa a qualidade apenas dentro do bounding box do guide oval (downscale 320 px).
+// Retorna o primeiro problema encontrado ou null se a qualidade for aceitável.
+function checkImageQuality(video: HTMLVideoElement): ImageQualityIssue | null {
+	if (video.videoWidth === 0 || video.videoHeight === 0) return null
+
+	const W = 320
+	const H = Math.round((video.videoHeight / video.videoWidth) * W)
+
+	const tmp = document.createElement('canvas')
+	tmp.width = W
+	tmp.height = H
+	const ctx = tmp.getContext('2d')!
+	ctx.drawImage(video, 0, 0, W, H)
+
+	// Recorte ao bounding box da elipse guia em coordenadas do canvas reduzido
+	const guide = getGuide(W, H)
+	const gx = Math.max(0, Math.floor((guide.cx - guide.rx) * W))
+	const gy = Math.max(0, Math.floor((guide.cy - guide.ry) * H))
+	const gw = Math.min(W - gx, Math.ceil(guide.rx * 2 * W))
+	const gh = Math.min(H - gy, Math.ceil(guide.ry * 2 * H))
+
+	const { data } = ctx.getImageData(gx, gy, gw, gh)
+	const total = gw * gh
+	const gray = new Float32Array(total)
+	let sum = 0
+	for (let i = 0; i < total; i++) {
+		const base = i * 4
+		const lum =
+			0.299 * data[base] + 0.587 * data[base + 1] + 0.114 * data[base + 2]
+		gray[i] = lum
+		sum += lum
+	}
+	const mean = sum / total
+
+	if (mean < 50) return 'too_dark'
+	if (mean > 210) return 'too_bright'
+
+	// Desvio padrão — contraste global
+	let varSum = 0
+	for (let i = 0; i < total; i++) {
+		const d = gray[i] - mean
+		varSum += d * d
+	}
+	if (Math.sqrt(varSum / total) < 20) return 'low_contrast'
+
+	// Variância do Laplaciano — nitidez (usa gw como stride da linha)
+	let lapSum = 0
+	let lapSqSum = 0
+	let count = 0
+	for (let y = 1; y < gh - 1; y++) {
+		for (let x = 1; x < gw - 1; x++) {
+			const idx = y * gw + x
+			const lap =
+				gray[idx + 1] +
+				gray[idx - 1] +
+				gray[idx + gw] +
+				gray[idx - gw] -
+				4 * gray[idx]
+			lapSum += lap
+			lapSqSum += lap * lap
+			count++
+		}
+	}
+	const lapMean = lapSum / count
+	const lapVar = lapSqSum / count - lapMean * lapMean
+	if (lapVar < 30) return 'too_blurry'
+
+	return null
+}
+
 function parseError(err: unknown): string {
 	if (err instanceof DOMException) {
 		switch (err.name) {
@@ -229,10 +312,14 @@ export function FaceMeshCapture({
 	const videoRef = useRef<HTMLVideoElement | null>(null)
 	const canvasRef = useRef<HTMLCanvasElement | null>(null)
 	const streamRef = useRef<MediaStream | null>(null)
+	const qualityFrameRef = useRef(0)
 
 	const [cameraState, setCameraState] = useState<FaceMeshCameraState>('idle')
 	const [errorMsg, setErrorMsg] = useState<string | null>(null)
 	const [capturedBase64, setCapturedBase64] = useState<string | null>(null)
+	const [qualityIssue, setQualityIssue] = useState<ImageQualityIssue | null>(
+		null,
+	)
 
 	const { isReady, landmarks } = useFaceMesh(videoRef)
 
@@ -264,6 +351,7 @@ export function FaceMeshCapture({
 	const startStream = useCallback(async () => {
 		setCameraState('idle')
 		setErrorMsg(null)
+		setQualityIssue(null)
 		try {
 			if (!navigator.mediaDevices?.getUserMedia) {
 				throw new DOMException('', 'NotAllowedError')
@@ -291,7 +379,7 @@ export function FaceMeshCapture({
 		return stopStream
 	}, [startStream, stopStream])
 
-	// Redesenha o canvas sempre que os landmarks são atualizados (inclui o oval guia)
+	// Redesenha o canvas e verifica qualidade a cada atualização de landmarks (throttled 1:5)
 	useEffect(() => {
 		if (cameraState !== 'streaming') return
 
@@ -309,6 +397,11 @@ export function FaceMeshCapture({
 		if (canvas.height !== vh) canvas.height = vh
 
 		drawScene(ctx, landmarks, vw, vh)
+
+		qualityFrameRef.current++
+		if (qualityFrameRef.current % 5 === 0) {
+			setQualityIssue(checkImageQuality(video))
+		}
 	}, [landmarks, cameraState])
 
 	const captureFrame = useCallback(() => {
@@ -357,7 +450,8 @@ export function FaceMeshCapture({
 		faceInGuide &&
 		faceProximity === 'ok' &&
 		faceFrontal === true &&
-		eyesOpen === true
+		eyesOpen === true &&
+		qualityIssue === null
 
 	const statusText =
 		cameraState === 'idle'
@@ -372,9 +466,11 @@ export function FaceMeshCapture({
 						? 'Olhe diretamente para a câmera'
 						: eyesOpen === false
 							? 'Mantenha os olhos abertos'
-							: canCapture
-								? 'Rosto enquadrado — pronto para capturar'
-								: 'Centralize o rosto no guia oval'
+							: qualityIssue !== null
+								? QUALITY_MESSAGES[qualityIssue]
+								: canCapture
+									? 'Rosto enquadrado — pronto para capturar'
+									: 'Centralize o rosto no guia oval'
 
 	return (
 		<div className='fmc-overlay'>
@@ -480,13 +576,15 @@ export function FaceMeshCapture({
 				{cameraState !== 'preview' && cameraState !== 'error' && (
 					<p
 						className={
-							canCapture
-								? 'fmc-status fmc-status--detected'
-								: faceProximity != null &&
-									  (faceProximity !== 'ok' ||
-											faceFrontal === false)
-									? 'fmc-status fmc-status--warning'
-									: 'fmc-status'
+							qualityIssue !== null
+								? 'fmc-status fmc-status--warning'
+								: canCapture
+									? 'fmc-status fmc-status--detected'
+									: faceProximity != null &&
+										  (faceProximity !== 'ok' ||
+												faceFrontal === false)
+										? 'fmc-status fmc-status--warning'
+										: 'fmc-status'
 						}
 					>
 						{statusText}
