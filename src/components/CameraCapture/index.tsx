@@ -9,7 +9,7 @@ import {
 import Icon from '@mdi/react'
 import { useSignatureStore } from '../../modules/signature/store/signature.store'
 import Button from '../Button'
-import { useCamera } from './hooks/useCamera'
+import { QUALITY_MESSAGES, useCamera } from './hooks/useCamera'
 import './style.css'
 import type { CameraCaptureProps } from './types'
 
@@ -26,6 +26,8 @@ export function CameraCapture({
 		hasTorch,
 		torchOn,
 		hasMultipleCameras,
+		qualityIssue,
+		canCapture,
 		capture,
 		retake,
 		confirm,
@@ -189,13 +191,29 @@ export function CameraCapture({
 							)}
 					</div>
 
+					{/* Status */}
+					{cameraState === 'streaming' && (
+						<p
+							className={
+								qualityIssue !== null
+									? 'camera-status camera-status--warning'
+									: 'camera-status camera-status--ok'
+							}
+						>
+							{qualityIssue !== null
+								? QUALITY_MESSAGES[qualityIssue]
+								: 'Pronto para capturar'}
+						</p>
+					)}
+
 					{/* Actions */}
 					<div className='camera-actions'>
 						{cameraState === 'streaming' && (
 							<Button
 								type='primary'
 								Label='Capturar'
-								onClick={capture}
+								onClick={canCapture ? capture : () => {}}
+								disabled={!canCapture}
 								icon={
 									<Icon
 										path={mdiCamera}

@@ -4,6 +4,78 @@ import type { CameraState } from '../types'
 
 type FacingMode = 'environment' | 'user'
 
+export type ImageQualityIssue =
+	| 'too_blurry'
+	| 'too_dark'
+	| 'too_bright'
+	| 'low_contrast'
+
+export const QUALITY_MESSAGES: Record<ImageQualityIssue, string> = {
+	too_blurry: 'Imagem desfocada — mantenha a câmera firme',
+	too_dark: 'Imagem muito escura — melhore a iluminação',
+	too_bright: 'Imagem muito clara — evite luz direta na câmera',
+	low_contrast: 'Contraste insuficiente — verifique a iluminação',
+}
+
+function checkImageQuality(video: HTMLVideoElement): ImageQualityIssue | null {
+	if (video.videoWidth === 0 || video.videoHeight === 0) return null
+
+	const W = 320
+	const H = Math.round((video.videoHeight / video.videoWidth) * W)
+
+	const tmp = document.createElement('canvas')
+	tmp.width = W
+	tmp.height = H
+	const ctx = tmp.getContext('2d')!
+	ctx.drawImage(video, 0, 0, W, H)
+
+	const { data } = ctx.getImageData(0, 0, W, H)
+	const total = W * H
+	const gray = new Float32Array(total)
+	let sum = 0
+	for (let i = 0; i < total; i++) {
+		const base = i * 4
+		const lum =
+			0.299 * data[base] + 0.587 * data[base + 1] + 0.114 * data[base + 2]
+		gray[i] = lum
+		sum += lum
+	}
+	const mean = sum / total
+
+	if (mean < 50) return 'too_dark'
+	if (mean > 210) return 'too_bright'
+
+	let varSum = 0
+	for (let i = 0; i < total; i++) {
+		const d = gray[i] - mean
+		varSum += d * d
+	}
+	if (Math.sqrt(varSum / total) < 20) return 'low_contrast'
+
+	let lapSum = 0
+	let lapSqSum = 0
+	let count = 0
+	for (let y = 1; y < H - 1; y++) {
+		for (let x = 1; x < W - 1; x++) {
+			const idx = y * W + x
+			const lap =
+				gray[idx + 1] +
+				gray[idx - 1] +
+				gray[idx + W] +
+				gray[idx - W] -
+				4 * gray[idx]
+			lapSum += lap
+			lapSqSum += lap * lap
+			count++
+		}
+	}
+	const lapMean = lapSum / count
+	const lapVar = lapSqSum / count - lapMean * lapMean
+	if (lapVar < 30) return 'too_blurry'
+
+	return null
+}
+
 interface ExtendedTrackCapabilities extends MediaTrackCapabilities {
 	torch?: boolean
 }
@@ -63,6 +135,8 @@ export function useCamera() {
 	const isInitializing = useRef(false)
 	const facingRef = useRef<FacingMode>('environment')
 
+	const qualityFrameRef = useRef(0)
+
 	const [state, setState] = useState<CameraState>('idle')
 	const [error, setError] = useState<string | null>(null)
 	const [preview, setPreview] = useState<string | null>(null)
@@ -70,6 +144,9 @@ export function useCamera() {
 	const [hasTorch, setHasTorch] = useState(false)
 	const [torchOn, setTorchOn] = useState(false)
 	const [hasMultipleCameras, setHasMultipleCameras] = useState(false)
+	const [qualityIssue, setQualityIssue] = useState<ImageQualityIssue | null>(
+		null,
+	)
 
 	const step = useSignatureStore((s) => s.step)
 
@@ -79,6 +156,7 @@ export function useCamera() {
 		if (videoRef.current) videoRef.current.srcObject = null
 		setHasTorch(false)
 		setTorchOn(false)
+		setQualityIssue(null)
 	}, [])
 
 	const startCamera = useCallback(async () => {
@@ -233,6 +311,23 @@ export function useCamera() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
+	useEffect(() => {
+		if (state !== 'streaming') return
+		let animId: number
+		function tick() {
+			qualityFrameRef.current++
+			if (qualityFrameRef.current % 5 === 0) {
+				const video = videoRef.current
+				if (video) setQualityIssue(checkImageQuality(video))
+			}
+			animId = requestAnimationFrame(tick)
+		}
+		animId = requestAnimationFrame(tick)
+		return () => cancelAnimationFrame(animId)
+	}, [state])
+
+	const canCapture = state === 'streaming' && qualityIssue === null
+
 	return {
 		videoRef,
 		state,
@@ -242,6 +337,8 @@ export function useCamera() {
 		hasTorch,
 		torchOn,
 		hasMultipleCameras,
+		qualityIssue,
+		canCapture,
 		capture,
 		retake,
 		confirm,

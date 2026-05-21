@@ -280,6 +280,51 @@ video.camera-media {
     background: rgba(255, 220, 0, 1);
 }
 
+/* Status bar */
+.camera-status {
+    font-family: system-ui, sans-serif;
+    font-size: 13px;
+    color: #666;
+    text-align: center;
+    padding: 10px 20px 4px;
+    margin: 0;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: color 0.25s;
+}
+
+.camera-status::before {
+    content: '';
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #d1d5db;
+    flex-shrink: 0;
+    transition: background 0.25s;
+}
+
+.camera-status--warning {
+    color: #d97706;
+    font-weight: 500;
+}
+
+.camera-status--warning::before {
+    background: #d97706;
+}
+
+.camera-status--ok {
+    color: #16a34a;
+    font-weight: 500;
+}
+
+.camera-status--ok::before {
+    background: #16a34a;
+}
+
 /* Actions bar */
 .camera-actions {
     display: flex;
