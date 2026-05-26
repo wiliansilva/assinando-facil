@@ -24,5 +24,5 @@ export type GetSignatureResponse = {
 
 export type GetSignatureParams = {
 	assinaturaId: string
-	contratoId: string
+	accessToken: string
 }

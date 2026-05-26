@@ -10,7 +10,7 @@ import { buildSignSignaturePayload } from '../utils/buildSignSignaturePayload'
 export function useSignSignature() {
 	const { id: assinaturaId } = useParams<{ id: string }>()
 	const [searchParams] = useSearchParams()
-	const contratoId = searchParams.get('contrato')
+	const accessToken = searchParams.get('access_token')
 
 	const data = useSignatureStore((state) => state.data)
 
@@ -19,7 +19,7 @@ export function useSignSignature() {
 	const [response, setResponse] = useState<SignSignatureResponse | null>(null)
 
 	const sign = useCallback(async () => {
-		if (!assinaturaId || !contratoId) {
+		if (!assinaturaId || !accessToken) {
 			const errorMsg = 'Parâmetros inválidos na URL.'
 			setError(errorMsg)
 			return null
@@ -33,7 +33,7 @@ export function useSignSignature() {
 
 			const result = await signSignature({
 				assinaturaId,
-				contratoId,
+				accessToken,
 				payload,
 			})
 
@@ -48,7 +48,7 @@ export function useSignSignature() {
 		} finally {
 			setLoading(false)
 		}
-	}, [assinaturaId, contratoId, data])
+	}, [assinaturaId, accessToken, data])
 
 	return {
 		sign,

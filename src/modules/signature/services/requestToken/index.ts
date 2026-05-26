@@ -3,11 +3,11 @@ import type { TokenParams, TokenResponse } from './types'
 
 export async function requestToken({
 	assinaturaId,
-	contratoId,
+	accessToken,
 }: TokenParams): Promise<TokenResponse> {
 	const { data } = await api.get<TokenResponse>(`/token/${assinaturaId}`, {
 		params: {
-			contrato: contratoId,
+			access_token: accessToken,
 		},
 	})
 

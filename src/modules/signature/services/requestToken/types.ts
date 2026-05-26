@@ -19,5 +19,5 @@ export type TokenResponse = {
 
 export type TokenParams = {
 	assinaturaId: string
-	contratoId: string
+	accessToken: string
 }

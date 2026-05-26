@@ -9,10 +9,10 @@ import { useSignatureStore } from '../store/signature.store'
 export function useToken() {
 	const { id: assinaturaId } = useParams<{ id: string }>()
 	const [searchParams] = useSearchParams()
-	const contratoId = searchParams.get('contrato')
+	const accessToken = searchParams.get('access_token')
 	const { updateData, data: dataStore } = useSignatureStore()
 
-	const isValidParams = Boolean(assinaturaId && contratoId)
+	const isValidParams = Boolean(assinaturaId && accessToken)
 
 	const [isLoading, setLoading] = useState(
 		isValidParams && !dataStore.tokenSent,
@@ -27,7 +27,7 @@ export function useToken() {
 		if (!isValidParams || dataStore.tokenSent) return
 		requestToken({
 			assinaturaId: assinaturaId!,
-			contratoId: contratoId!,
+			accessToken: accessToken!,
 		})
 			.then(() => {
 				updateData({ tokenSent: true })
@@ -39,7 +39,7 @@ export function useToken() {
 	}, [
 		isValidParams,
 		assinaturaId,
-		contratoId,
+		accessToken,
 		updateData,
 		dataStore.tokenSent,
 	])
@@ -53,7 +53,7 @@ export function useToken() {
 		toast.promise(
 			requestToken({
 				assinaturaId: assinaturaId!,
-				contratoId: contratoId!,
+				accessToken: accessToken!,
 			}),
 			{
 				loading: 'Reenviando token...',

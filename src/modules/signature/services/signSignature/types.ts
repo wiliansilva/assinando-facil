@@ -8,6 +8,6 @@ export type SignSignatureResponse = {
 
 export type SignSignatureParams = {
 	assinaturaId: string
-	contratoId: string
+	accessToken: string
 	payload: SignSignaturePayload
 }

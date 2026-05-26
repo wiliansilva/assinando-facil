@@ -11,10 +11,10 @@ import { useSignatureStore } from '../store/signature.store'
 export function useSignatureData() {
 	const { id: assinaturaId } = useParams<{ id: string }>()
 	const [searchParams] = useSearchParams()
-	const contratoId = searchParams.get('contrato')
+	const accessToken = searchParams.get('access_token')
 	const { updateData } = useSignatureStore()
 
-	const isValidParams = Boolean(assinaturaId && contratoId)
+	const isValidParams = Boolean(assinaturaId && accessToken)
 
 	const [data, setData] = useState<GetSignatureResponse | null>(null)
 	const [isLoading, setLoading] = useState(isValidParams)
@@ -29,7 +29,7 @@ export function useSignatureData() {
 		signatureService
 			.getSignature({
 				assinaturaId: assinaturaId!,
-				contratoId: contratoId!,
+				accessToken: accessToken!,
 			})
 			.then((response) => {
 				setData(response)
@@ -48,7 +48,7 @@ export function useSignatureData() {
 				setErrorCode(error.statusCode || null)
 			})
 			.finally(() => setLoading(false))
-	}, [isValidParams, assinaturaId, contratoId, updateData])
+	}, [isValidParams, assinaturaId, accessToken, updateData])
 
 	return { data, isLoading, error, errorCode }
 }

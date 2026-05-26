@@ -10,7 +10,7 @@ const ERROR_MESSAGES: Record<string, string> = {
 	'Página não encontrada.': 'A Página solicitada não foi encontrada.',
 	'Documento não encontrado.':
 		'Este documento não está disponível. Ele pode já ter sido assinado ou o link pode ter expirado.',
-	'O parâmetro contrato deve ser um UUID válido.':
+	'O parâmetro access_token deve ser um UUID válido.':
 		'O link informado é inválido ou está incompleto. Verifique e tente novamente.',
 }
 

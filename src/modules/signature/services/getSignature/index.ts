@@ -4,13 +4,13 @@ import type { GetSignatureParams, GetSignatureResponse } from './types'
 export const signatureService = {
 	async getSignature({
 		assinaturaId,
-		contratoId,
+		accessToken,
 	}: GetSignatureParams): Promise<GetSignatureResponse> {
 		const { data } = await api.get<GetSignatureResponse>(
 			`/assinatura/${assinaturaId}`,
 			{
 				params: {
-					contrato: contratoId,
+					access_token: accessToken,
 				},
 			},
 		)

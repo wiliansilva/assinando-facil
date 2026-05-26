@@ -3,7 +3,7 @@ import type { SignSignatureParams, SignSignatureResponse } from './types'
 
 export async function signSignature({
 	assinaturaId,
-	contratoId,
+	accessToken,
 	payload,
 }: SignSignatureParams): Promise<SignSignatureResponse> {
 	const { data } = await api.post<SignSignatureResponse>(
@@ -11,7 +11,7 @@ export async function signSignature({
 		payload,
 		{
 			params: {
-				contrato: contratoId,
+				access_token: accessToken,
 			},
 		},
 	)
