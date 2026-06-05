@@ -1,8 +1,9 @@
-import { mdiAlertCircle, mdiCamera, mdiCheckCircle } from '@mdi/js'
+import { mdiAlertCircle, mdiCamera, mdiCheck } from '@mdi/js'
 import Icon from '@mdi/react'
 import { useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import type { SignatureData } from '../../domain/types'
+import { useSignatureStore } from '../../modules/signature/store/signature.store'
 import Button from '../Button'
 import { CameraCapture } from '../CameraCapture'
 import './style.css'
@@ -13,7 +14,10 @@ export function PhotoCaptureField({
 	fieldName,
 	placeholderSrc,
 	cameraTitle,
+	isFieldValid = true,
 }: PhotoCaptureFieldProps) {
+	const setStepValid = useSignatureStore((state) => state.setStepValid)
+	const step = useSignatureStore((s) => s.step)
 	const [cameraOpen, setCameraOpen] = useState(false)
 
 	const {
@@ -29,6 +33,7 @@ export function PhotoCaptureField({
 	function handleConfirm(base64: string) {
 		setValue(fieldName, base64, { shouldValidate: true })
 		setCameraOpen(false)
+		setStepValid(step, false)
 	}
 
 	return (
@@ -46,41 +51,34 @@ export function PhotoCaptureField({
 					{...register(fieldName)}
 				/>
 
-				{capturedImage ? (
-					<>
-						<img
-							src={capturedImage}
-							className={hasError ? 'error' : 'success'}
-							loading='lazy'
-							alt='Foto capturada'
+				<img
+					src={capturedImage || placeholderSrc}
+					// className={hasError ? 'error' : undefined}
+					loading='lazy'
+					alt={capturedImage ? 'Foto capturada' : 'Foto placeholder'}
+				/>
+				{hasError && (
+					<div className='photo-document__take-message error'>
+						<Icon
+							path={mdiAlertCircle}
+							size={1}
+							color='var(--text-color-red)'
 						/>
-						<div className='photo-document__take-message success'>
-							<Icon
-								path={mdiCheckCircle}
-								size={1}
-								color='var(--secondary-color-green)'
-							/>
-							<span>Foto capturada com sucesso</span>
-						</div>
-					</>
-				) : (
-					<>
-						<img
-							src={placeholderSrc}
-							loading='lazy'
-							alt='Foto placeholder'
+						<span>
+							{errors[fieldName]?.message ??
+								'Selecione uma foto válida'}
+						</span>
+					</div>
+				)}
+				{!hasError && capturedImage && isFieldValid && (
+					<div className='photo-document__take-message success'>
+						<Icon
+							path={mdiCheck}
+							size={1}
+							color='var(--secondary-color-green)'
 						/>
-						{hasError && (
-							<div className='photo-document__take-message error'>
-								<Icon
-									path={mdiAlertCircle}
-									size={1}
-									color='var(--text-color-red)'
-								/>
-								<span>Selecione uma foto válida</span>
-							</div>
-						)}
-					</>
+						<span>Foto validada com sucesso!</span>
+					</div>
 				)}
 
 				{cameraOpen && (

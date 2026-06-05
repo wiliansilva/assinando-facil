@@ -15,6 +15,7 @@
 .photo-document__take-image {
     min-height: 250px;
     max-height: 250px;
+    max-width: 340px;
     display: flex;
     align-items: flex-start;
     flex-direction: column;
@@ -62,9 +63,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: bold;
+    font-weight: 600;
     width: 100%;
     margin-top: 16px;
+    font-size: 0.875rem;
 }
 
 .photo-document__take-message.success {
