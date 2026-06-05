@@ -59,7 +59,7 @@ export default function SelfieStep() {
 	}, [selfieBase64, isValid, validate, setStepValid, updateData, setError])
 
 	if (isValidating) {
-		return <LoadingValidation />
+		return <LoadingValidation message='Validando Selfie...' />
 	}
 
 	return (

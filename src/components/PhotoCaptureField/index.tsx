@@ -53,7 +53,6 @@ export function PhotoCaptureField({
 
 				<img
 					src={capturedImage || placeholderSrc}
-					// className={hasError ? 'error' : undefined}
 					loading='lazy'
 					alt={capturedImage ? 'Foto capturada' : 'Foto placeholder'}
 				/>

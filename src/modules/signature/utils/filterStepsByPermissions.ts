@@ -29,6 +29,15 @@ export function filterStepsByPermissions(
 		if (!permissionKey) return true // Se não tem mapeamento, inclui o step
 
 		const permission = permissions?.[permissionKey]
-		return permission === 'sim'
+		if (permission === 'sim') return true
+
+		// autenticacao_biometria implica autenticacao_foto
+		if (
+			permissionKey === 'autenticacao_foto' &&
+			permissions?.autenticacao_biometria === 'sim'
+		)
+			return true
+
+		return false
 	})
 }

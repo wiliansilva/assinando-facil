@@ -6,9 +6,13 @@ import recognitionePlaceholder from '../../../../../assets/recognition-placehold
 
 import Button from '../../../../../components/Button'
 import { FaceMeshCapture } from '../../../../../components/FaceMeshCapture'
+import LoadingValidation from '../../../../../components/LoadingValidation'
 import Text from '../../../../../components/Text'
 import { TextType } from '../../../../../components/Text/types'
 import type { SignatureData } from '../../../../../domain/types'
+import { formatErrorMessage } from '../../../../../services/errorHandler'
+import type { ApiError } from '../../../../../services/types'
+import { useValidateBiometria } from '../../../hooks/useValidateBiometria'
 import { useSignatureStore } from '../../../store/signature.store'
 
 const CHECKLIST_ITEMS = [
@@ -19,8 +23,10 @@ const CHECKLIST_ITEMS = [
 
 export default function RecognitionStep() {
 	const {
+		register,
 		control,
 		setValue,
+		setError,
 		formState: { errors },
 	} = useFormContext<Partial<SignatureData>>()
 	const hasError = !!errors.recognitionBase64
@@ -29,14 +35,51 @@ export default function RecognitionStep() {
 
 	const recognitionBase64 = useWatch({ control, name: 'recognitionBase64' })
 	const setStepValid = useSignatureStore((state) => state.setStepValid)
+	const updateData = useSignatureStore((state) => state.updateData)
+	const data = useSignatureStore((state) => state.data)
+	const isValid = useSignatureStore((s) => s.isCurrentStepValid())
+	const { validate, isValidating } = useValidateBiometria()
 
 	useEffect(() => {
-		setStepValid('recognition', !!recognitionBase64)
-	}, [recognitionBase64, setStepValid])
+		if (isValid) return
+		if (!recognitionBase64) {
+			setStepValid('recognition', false)
+			return
+		}
+
+		updateData({ recognitionBase64 })
+		validate(data.documentFrontBase64 ?? '', recognitionBase64)
+			.then((ok) => {
+				setStepValid('recognition', ok)
+			})
+			.catch((error: ApiError) => {
+				const errorMessage = formatErrorMessage(error)
+				setError('recognitionBase64', {
+					type: 'manual',
+					message: errorMessage,
+				})
+				setStepValid('recognition', false)
+			})
+	}, [
+		recognitionBase64,
+		isValid,
+		validate,
+		setStepValid,
+		updateData,
+		setError,
+		data.documentFrontBase64,
+	])
 
 	function handleConfirm(base64: string) {
 		setValue('recognitionBase64', base64, { shouldValidate: true })
 		setCameraOpen(false)
+		setStepValid('recognition', false)
+	}
+
+	if (isValidating) {
+		return (
+			<LoadingValidation message='Realizando reconhecimento facial...' />
+		)
 	}
 
 	return (
@@ -70,43 +113,41 @@ export default function RecognitionStep() {
 			<div className='content-step__fields'>
 				<div className='photo-document__take'>
 					<div className='photo-document__take-image'>
-						{recognitionBase64 ? (
-							<>
-								<img
-									src={recognitionBase64}
-									className='success'
-									loading='lazy'
-									alt='Reconhecimento facial capturado'
+						<input
+							type='hidden'
+							{...register('recognitionBase64')}
+						/>
+
+						<img
+							src={recognitionBase64 || recognitionePlaceholder}
+							loading='lazy'
+							alt='Reconhecimento facial capturado'
+						/>
+						{hasError && (
+							<div className='photo-document__take-message error'>
+								<Icon
+									path={mdiAlertCircle}
+									size={1}
+									color='var(--text-color-red)'
 								/>
-								<div className='photo-document__take-message success'>
-									<Icon
-										path={mdiCheckCircle}
-										size={1}
-										color='var(--secondary-color-green)'
-									/>
-									<span>Foto capturada com sucesso</span>
-								</div>
-							</>
-						) : (
-							<>
-								<img
-									src={recognitionePlaceholder}
-									loading='lazy'
-									alt='Placeholder reconhecimento facial'
+								<span>
+									{errors['recognitionBase64']?.message ??
+										'Selecione uma foto válida'}
+								</span>
+							</div>
+						)}
+
+						{!hasError && recognitionBase64 && (
+							<div className='photo-document__take-message success'>
+								<Icon
+									path={mdiCheckCircle}
+									size={1}
+									color='var(--secondary-color-green)'
 								/>
-								{hasError && (
-									<div className='photo-document__take-message error'>
-										<Icon
-											path={mdiAlertCircle}
-											size={1}
-											color='var(--text-color-red)'
-										/>
-										<span>
-											Capture seu rosto para continuar
-										</span>
-									</div>
-								)}
-							</>
+								<span>
+									Reconhecimento facial realizado com sucesso
+								</span>
+							</div>
 						)}
 					</div>
 
