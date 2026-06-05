@@ -227,10 +227,8 @@ export function useCamera() {
 				sy = (vh - sh) / 2
 			}
 
-			const MAX_WIDTH = 800
-			const scale = Math.min(1, MAX_WIDTH / sw)
-			canvas.width = Math.round(sw * scale)
-			canvas.height = Math.round(sh * scale)
+			canvas.width = Math.round(sw)
+			canvas.height = Math.round(sh)
 			ctx.drawImage(
 				video,
 				sx,
@@ -247,10 +245,8 @@ export function useCamera() {
 
 			setPreview(result.toDataURL('image/jpeg', 0.92))
 		} else {
-			const MAX_WIDTH = 480
-			const scale = Math.min(1, MAX_WIDTH / vw)
-			canvas.width = Math.round(vw * scale)
-			canvas.height = Math.round(vh * scale)
+			canvas.width = vw
+			canvas.height = vh
 			ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
 
 			setPreview(canvas.toDataURL('image/jpeg', 0.92))
