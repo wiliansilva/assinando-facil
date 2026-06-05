@@ -96,6 +96,7 @@ export function SignatureFlow({ steps = [] }: { steps?: SignatureStep[] }) {
 	// Sincroniza o form com os dados do store ao trocar de step
 	useEffect(() => {
 		methods.reset(currentData)
+		methods.clearErrors()
 	}, [step]) // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {

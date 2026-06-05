@@ -14,6 +14,7 @@ const PERMISSION_MAPPING: Record<string, SignatureStep> = {
 	autenticacao_foto: 'document',
 	autenticacao_selfie: 'selfie',
 	autenticacao_manuscrito: 'signature',
+	autenticacao_biometria: 'recognition',
 }
 
 export function filterStepsByPermissions(

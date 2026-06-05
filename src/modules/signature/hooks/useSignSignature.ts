@@ -43,7 +43,6 @@ export function useSignSignature() {
 			const apiError = err as ApiError
 			const errorMsg = formatErrorMessage(apiError)
 			setError(errorMsg)
-			console.error('Erro ao assinar:', errorMsg)
 			return null
 		} finally {
 			setLoading(false)

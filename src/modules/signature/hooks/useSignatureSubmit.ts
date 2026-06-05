@@ -17,8 +17,13 @@ export function useSignatureSubmit(
 	const { sign, loading } = useSignSignature()
 
 	const handleSubmit = useCallback(
-		(methods: UseFormReturn<SignatureData>) =>
-			methods.handleSubmit(
+		(methods: UseFormReturn<SignatureData>) => {
+			if (Object.keys(methods.formState.errors).length > 0) {
+				toast.error('Por favor, corrija os erros antes de avançar.')
+				return Promise.resolve()
+			}
+
+			return methods.handleSubmit(
 				async (formData) => {
 					updateData(formData)
 					const isLastStep = currentIndex === steps.length - 1
@@ -50,7 +55,8 @@ export function useSignatureSubmit(
 					toast.error(
 						'Por favor, corrija os erros antes de avançar.',
 					),
-			)(),
+			)()
+		},
 		[
 			currentIndex,
 			steps.length,

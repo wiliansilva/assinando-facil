@@ -27,12 +27,12 @@ export const schemasByStep = {
 	}),
 
 	document: z.object({
-		documentFrontBase64: z.string().nonempty('Campo obrigatório!'),
-		documentBackBase64: z.string().nonempty('Campo obrigatório!'),
+		documentFrontBase64: z.string().nonempty('Selecione uma foto válida!'),
+		documentBackBase64: z.string().nonempty('Selecione uma foto válida!'),
 	}),
 
 	selfie: z.object({
-		selfieBase64: z.string().nonempty('Campo obrigatório!'),
+		selfieBase64: z.string().nonempty('Selecione uma foto válida!'),
 	}),
 
 	recognition: z.object({
