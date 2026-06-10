@@ -1,4 +1,5 @@
 export type ValidateSelfieDocumentoParams = {
+	assinaturaId: string
 	accessToken: string
 	selfieBase64: string
 }
@@ -28,4 +29,5 @@ export type ValidateSelfieDocumentoResponse = {
 	valid: boolean
 	message: string
 	details: ValidateSelfieDocumentoDetails
+	hash_selfie: string
 }

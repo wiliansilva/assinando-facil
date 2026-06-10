@@ -1,4 +1,5 @@
 export type ValidateDocumentParams = {
+	assinaturaId: string
 	accessToken: string
 	documentFrontBase64: string
 	documentBackBase64: string
@@ -35,4 +36,6 @@ export type ValidateDocumentResponse = {
 	message: string
 	tipo_documento: string
 	details: ValidateDocumentDetails
+	hash_doc_frente: string
+	hash_doc_verso: string
 }

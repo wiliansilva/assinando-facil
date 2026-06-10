@@ -1,12 +1,15 @@
 import { useCallback, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import type { ApiError } from '../../../services/types'
 import { validateSelfieDocumento } from '../services/validateSelfieDocumento'
+import { useSignatureStore } from '../store/signature.store'
 
 export function useValidateSelfieDocumento() {
 	const [searchParams] = useSearchParams()
 	const [isValidating, setIsValidating] = useState(false)
+	const { id: assinaturaId } = useParams<{ id: string }>()
+	const updateData = useSignatureStore((s) => s.updateData)
 
 	const validate = useCallback(
 		async (selfieBase64: string): Promise<boolean> => {
@@ -16,12 +19,22 @@ export function useValidateSelfieDocumento() {
 				return false
 			}
 
+			if (!assinaturaId) {
+				toast.error('Documento não encontrado.')
+				return false
+			}
+
 			setIsValidating(true)
-			return validateSelfieDocumento({ accessToken, selfieBase64 })
+			return validateSelfieDocumento({
+				assinaturaId,
+				accessToken,
+				selfieBase64,
+			})
 				.then((result) => {
 					if (!result.valid) {
 						return false
 					}
+					updateData({ hash_selfie: result.hash_selfie })
 					toast.success(result.message)
 					return true
 				})
@@ -30,7 +43,7 @@ export function useValidateSelfieDocumento() {
 				})
 				.finally(() => setIsValidating(false))
 		},
-		[searchParams],
+		[searchParams, assinaturaId, updateData],
 	)
 
 	return { validate, isValidating }

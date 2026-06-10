@@ -37,10 +37,11 @@ export function useSignatureData() {
 				updateData({
 					documentPDFUrl: response.documento.url,
 					fullName: response.signatario.nome,
-					cpf: response.signatario.documento.replace(/\D/g, ''),
+					cpf:
+						response.signatario.documento?.replace(/\D/g, '') ?? '',
 					dateOfBirth: response.signatario.nascimento
 						? isoToBR(response.signatario.nascimento)
-						: response.signatario.nascimento,
+						: '',
 				})
 			})
 			.catch((error: ApiError) => {

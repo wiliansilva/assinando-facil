@@ -10,12 +10,13 @@ export function useToken() {
 	const { id: assinaturaId } = useParams<{ id: string }>()
 	const [searchParams] = useSearchParams()
 	const accessToken = searchParams.get('access_token')
-	const { updateData, data: dataStore } = useSignatureStore()
+	const { updateData, data: dataStore, availableSteps } = useSignatureStore()
 
+	const hasTokenStep = availableSteps.includes('token')
 	const isValidParams = Boolean(assinaturaId && accessToken)
 
 	const [isLoading, setLoading] = useState(
-		isValidParams && !dataStore.tokenSent,
+		isValidParams && hasTokenStep && !dataStore.tokenSent,
 	)
 	const [isResending, setIsResending] = useState(false)
 	const [error, setError] = useState<string | null>(
@@ -24,7 +25,7 @@ export function useToken() {
 	const [errorCode, setErrorCode] = useState<number | null>(0)
 
 	useEffect(() => {
-		if (!isValidParams || dataStore.tokenSent) return
+		if (!isValidParams || !hasTokenStep || dataStore.tokenSent) return
 		requestToken({
 			assinaturaId: assinaturaId!,
 			accessToken: accessToken!,
@@ -38,6 +39,7 @@ export function useToken() {
 			.finally(() => setLoading(false))
 	}, [
 		isValidParams,
+		hasTokenStep,
 		assinaturaId,
 		accessToken,
 		updateData,

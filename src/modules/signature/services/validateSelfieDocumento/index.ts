@@ -5,11 +5,12 @@ import type {
 } from './types'
 
 export async function validateSelfieDocumento({
+	assinaturaId,
 	accessToken,
 	selfieBase64,
 }: ValidateSelfieDocumentoParams): Promise<ValidateSelfieDocumentoResponse> {
 	const { data } = await api.post<ValidateSelfieDocumentoResponse>(
-		'/validacoes/selfie-documento',
+		`/validacoes/selfie-documento/${assinaturaId}`,
 		{
 			autenticacao_foto_selfie_base64: selfieBase64,
 		},

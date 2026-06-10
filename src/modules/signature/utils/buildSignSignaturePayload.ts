@@ -38,7 +38,9 @@ export function buildSignSignaturePayload(
 		latitude: data.latitude || '',
 		longitude: data.longitude || '',
 		autenticacao_manuscrito_base64: cleanBase64(data.signatureBase64 || ''),
-		autenticacao_selfie_base64: cleanBase64(data.selfieBase64 || ''),
+		autenticacao_selfie_base64: cleanBase64(
+			data.selfieBase64 || data.recognitionBase64 || '',
+		),
 		autenticacao_foto_frente_base64: cleanBase64(
 			data.documentFrontBase64 || '',
 		),
@@ -46,5 +48,8 @@ export function buildSignSignaturePayload(
 			data.documentBackBase64 || '',
 		),
 		fechamento_automatico: 'sim',
+		hash_doc_frente: data.hash_doc_frente,
+		hash_doc_verso: data.hash_doc_verso,
+		hash_selfie: data.hash_selfie,
 	}
 }

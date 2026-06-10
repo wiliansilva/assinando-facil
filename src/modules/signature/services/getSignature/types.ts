@@ -1,10 +1,7 @@
 export type SignatureDocumentResponse = {
-	storage_key: string
+	documento_key: string
 	datafinal_assinatura: string
 	nome_documento: string
-	autenticacao_selfie: string
-	autenticacao_foto: string
-	autenticacao_manuscrito: string
 	data_inclusao: string
 	data_alteracao: string
 	url: string
@@ -13,13 +10,25 @@ export type SignatureDocumentResponse = {
 export type SignatoryResponse = {
 	signatario_key: string
 	nome: string
-	documento: string
-	nascimento: string
+	documento: string | null
+	nascimento: string | null
+	autenticacao_selfie: string
+	autenticacao_doc_oficial: string
+	autenticacao_manuscrito: string
+	autenticacao_biometria: string
+	autenticacao_token: string
+}
+
+export type EmpresaResponse = {
+	nome: string
+	cnpj: string
+	logo_url: string
 }
 
 export type GetSignatureResponse = {
 	documento: SignatureDocumentResponse
 	signatario: SignatoryResponse
+	empresa: EmpresaResponse
 }
 
 export type GetSignatureParams = {

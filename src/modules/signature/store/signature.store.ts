@@ -18,6 +18,9 @@ export const initialData: SignatureData = {
 	fileReadingConfirmed: false,
 	personalDataConfirmed: false,
 	tokenSent: false,
+	hash_doc_frente: '',
+	hash_doc_verso: '',
+	hash_selfie: '',
 }
 
 export const useSignatureStore = create<SignatureState>()(

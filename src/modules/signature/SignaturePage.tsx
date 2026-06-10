@@ -10,9 +10,10 @@ import { filterStepsByPermissions } from './utils/filterStepsByPermissions'
 export function SignaturePage() {
 	const { data, isLoading, error, errorCode } = useSignatureData()
 	const availableSteps = useMemo(
-		() => filterStepsByPermissions(data?.documento),
-		[data?.documento],
+		() => filterStepsByPermissions(data?.signatario),
+		[data?.signatario],
 	)
+
 	const {
 		isLoading: isTokenLoading,
 		error: tokenError,

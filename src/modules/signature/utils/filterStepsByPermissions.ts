@@ -11,14 +11,15 @@ const ALL_STEPS: SignatureStep[] = [
 ]
 
 const PERMISSION_MAPPING: Record<string, SignatureStep> = {
-	autenticacao_foto: 'document',
+	autenticacao_doc_oficial: 'document',
 	autenticacao_selfie: 'selfie',
-	autenticacao_manuscrito: 'signature',
 	autenticacao_biometria: 'recognition',
+	autenticacao_manuscrito: 'signature',
+	autenticacao_token: 'token',
 }
 
 export function filterStepsByPermissions(
-	permissions: Record<string, string | undefined> | undefined,
+	permissions: Record<string, string | null | undefined> | undefined,
 ): SignatureStep[] {
 	return ALL_STEPS.filter((step) => {
 		const permissionKey = Object.entries(PERMISSION_MAPPING).find(
@@ -31,9 +32,9 @@ export function filterStepsByPermissions(
 		const permission = permissions?.[permissionKey]
 		if (permission === 'sim') return true
 
-		// autenticacao_biometria implica autenticacao_foto
+		// autenticacao_biometria implica autenticacao_doc_oficial
 		if (
-			permissionKey === 'autenticacao_foto' &&
+			permissionKey === 'autenticacao_doc_oficial' &&
 			permissions?.autenticacao_biometria === 'sim'
 		)
 			return true

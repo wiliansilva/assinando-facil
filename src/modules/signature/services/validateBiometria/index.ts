@@ -5,12 +5,13 @@ import type {
 } from './types'
 
 export async function validateBiometria({
+	assinaturaId,
 	accessToken,
 	documentFrontBase64,
 	recognitionBase64,
 }: ValidateBiometriaParams): Promise<ValidateBiometriaResponse> {
 	const { data } = await api.post<ValidateBiometriaResponse>(
-		'/validacoes/biometria',
+		`/validacoes/biometria/${assinaturaId}`,
 		{
 			autenticacao_foto_frente_base64: documentFrontBase64,
 			autenticacao_foto_selfie_base64: recognitionBase64,

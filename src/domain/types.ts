@@ -15,6 +15,9 @@ export type SignatureData = {
 	fileReadingConfirmed?: boolean
 	personalDataConfirmed?: boolean
 	tokenSent?: boolean
+	hash_doc_frente?: string
+	hash_doc_verso?: string
+	hash_selfie?: string
 }
 export type SignatureType = 'typed' | 'drawed'
 
@@ -43,6 +46,9 @@ export type SignSignaturePayload = {
 	autenticacao_foto_frente_base64: string
 	autenticacao_foto_verso_base64: string
 	fechamento_automatico: string
+	hash_doc_frente?: string
+	hash_doc_verso?: string
+	hash_selfie?: string
 }
 
 export type SignatureState = {
