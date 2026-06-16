@@ -12,7 +12,7 @@ export function useSignatureData() {
 	const { id: assinaturaId } = useParams<{ id: string }>()
 	const [searchParams] = useSearchParams()
 	const accessToken = searchParams.get('access_token')
-	const { updateData } = useSignatureStore()
+	const { updateData, setCpfEditable } = useSignatureStore()
 
 	const isValidParams = Boolean(assinaturaId && accessToken)
 
@@ -33,23 +33,26 @@ export function useSignatureData() {
 			})
 			.then((response) => {
 				setData(response)
+				const cpf =
+					response.signatario.documento?.replace(/\D/g, '') ?? ''
 				// Sincroniza com o store
 				updateData({
 					documentPDFUrl: response.documento.url,
 					fullName: response.signatario.nome,
-					cpf:
-						response.signatario.documento?.replace(/\D/g, '') ?? '',
+					cpf,
 					dateOfBirth: response.signatario.nascimento
 						? isoToBR(response.signatario.nascimento)
 						: '',
 				})
+				// CPF vazio da API => campo editável (persiste entre os steps)
+				setCpfEditable(!cpf)
 			})
 			.catch((error: ApiError) => {
 				setError(formatErrorMessage(error))
 				setErrorCode(error.statusCode || null)
 			})
 			.finally(() => setLoading(false))
-	}, [isValidParams, assinaturaId, accessToken, updateData])
+	}, [isValidParams, assinaturaId, accessToken, updateData, setCpfEditable])
 
 	return { data, isLoading, error, errorCode }
 }

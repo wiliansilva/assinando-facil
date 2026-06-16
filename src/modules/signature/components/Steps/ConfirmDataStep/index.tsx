@@ -30,6 +30,11 @@ export function ConfirmDataStep() {
 	})
 
 	const setStepValid = useSignatureStore((state) => state.setStepValid)
+
+	// Definido na carga da API (CPF vazio => editável). Fica na store para
+	// sobreviver à remontagem do step e não voltar a travar após salvar o CPF.
+	const cpfEditable = useSignatureStore((state) => state.cpfEditable)
+
 	useEffect(() => {
 		setStepValid('confirm', personalDataConfirmed ?? false)
 	}, [personalDataConfirmed, setStepValid])
@@ -79,7 +84,7 @@ export function ConfirmDataStep() {
 					mask='000.000.000-00'
 					errorMessage={errors.cpf?.message}
 					required
-					disabled
+					disabled={!cpfEditable}
 					{...register('cpf')}
 					icon={
 						<Icon

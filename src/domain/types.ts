@@ -54,6 +54,9 @@ export type SignSignaturePayload = {
 export type SignatureState = {
 	step: SignatureStep
 	data: SignatureData
+	/** Define se o CPF deve ser editável (true quando veio vazio da API). */
+	cpfEditable: boolean
+	setCpfEditable: (editable: boolean) => void
 	setStep: (step: SignatureStep) => void
 	updateData: (data: Partial<SignatureData>) => void
 	availableSteps: SignatureStep[]
