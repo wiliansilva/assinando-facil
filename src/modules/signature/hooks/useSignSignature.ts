@@ -18,11 +18,17 @@ export function useSignSignature() {
 	const [error, setError] = useState<string | null>(null)
 	const [response, setResponse] = useState<SignSignatureResponse | null>(null)
 
-	const sign = useCallback(async () => {
+	const sign = useCallback(async (): Promise<SignSignatureResponse> => {
 		if (!assinaturaId || !accessToken) {
 			const errorMsg = 'Parâmetros inválidos na URL.'
 			setError(errorMsg)
-			return null
+			const errorResponse: SignSignatureResponse = {
+				sucesso: false,
+				mensagem_erro: errorMsg,
+				data_assinatura: '',
+			}
+			setResponse(errorResponse)
+			return errorResponse
 		}
 
 		setLoading(true)
@@ -43,7 +49,13 @@ export function useSignSignature() {
 			const apiError = err as ApiError
 			const errorMsg = formatErrorMessage(apiError)
 			setError(errorMsg)
-			return null
+			const errorResponse: SignSignatureResponse = {
+				sucesso: false,
+				mensagem_erro: errorMsg,
+				data_assinatura: '',
+			}
+			setResponse(errorResponse)
+			return errorResponse
 		} finally {
 			setLoading(false)
 		}
