@@ -6,6 +6,7 @@ import './style.css'
 
 export default function SuccessStep() {
 	const reset = useSignatureStore((s) => s.reset)
+	const company = useSignatureStore((s) => s.company)
 	useEffect(() => {
 		return () => {
 			reset()
@@ -21,13 +22,13 @@ export default function SuccessStep() {
 						className='wizard-check-steps__logo'
 					>
 						<img
-							src='https://rbxsoft.com/wp-content/uploads/2023/05/cropped-RBXSoft-Padrao.png'
+							src={company?.logoUrl}
 							loading='lazy'
 							alt=''
 						/>
 					</div>
 					<p className='wizard-check-steps__company'>
-						RBXSoft Company
+						{company?.name}
 					</p>
 				</div>
 

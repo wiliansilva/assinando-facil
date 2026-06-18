@@ -12,7 +12,7 @@ export function useSignatureData() {
 	const { id: assinaturaId } = useParams<{ id: string }>()
 	const [searchParams] = useSearchParams()
 	const accessToken = searchParams.get('access_token')
-	const { updateData, setCpfEditable } = useSignatureStore()
+	const { updateData, setCpfEditable, setCompany } = useSignatureStore()
 
 	const isValidParams = Boolean(assinaturaId && accessToken)
 
@@ -46,13 +46,26 @@ export function useSignatureData() {
 				})
 				// CPF vazio da API => campo editável (persiste entre os steps)
 				setCpfEditable(!cpf)
+				// Sincroniza os dados da empresa com o store
+				setCompany({
+					name: response.empresa.nome,
+					cnpj: response.empresa.cnpj,
+					logoUrl: response.empresa.logo_url,
+				})
 			})
 			.catch((error: ApiError) => {
 				setError(formatErrorMessage(error))
 				setErrorCode(error.statusCode || null)
 			})
 			.finally(() => setLoading(false))
-	}, [isValidParams, assinaturaId, accessToken, updateData, setCpfEditable])
+	}, [
+		isValidParams,
+		assinaturaId,
+		accessToken,
+		updateData,
+		setCpfEditable,
+		setCompany,
+	])
 
 	return { data, isLoading, error, errorCode }
 }

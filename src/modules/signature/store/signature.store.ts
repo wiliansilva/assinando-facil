@@ -29,6 +29,9 @@ export const useSignatureStore = create<SignatureState>()(
 			step: 'read',
 			data: initialData,
 
+			company: null,
+			setCompany: (company) => set({ company }),
+
 			cpfEditable: false,
 			setCpfEditable: (cpfEditable) => set({ cpfEditable }),
 

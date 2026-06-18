@@ -27,6 +27,7 @@ export function WizardCheckSteps({
 	onBack?: () => void
 }) {
 	const step = useSignatureStore((state) => state.step)
+	const company = useSignatureStore((s) => s.company)
 	const { availableSteps } = useSignatureStore()
 	const orderedSteps = availableSteps
 
@@ -70,13 +71,13 @@ export function WizardCheckSteps({
 						{/* Linha 1: logo + nome */}
 						<div className='wcs-mobile__brand'>
 							<img
-								src='https://rbxsoft.com/wp-content/uploads/2023/05/cropped-RBXSoft-Padrao.png'
+								src={company?.logoUrl}
 								alt='Logo'
 								className='wcs-mobile__logo'
 								loading='lazy'
 							/>
 							<span className='wcs-mobile__company'>
-								RBXSoft Company
+								{company?.name}
 							</span>
 						</div>
 
@@ -217,13 +218,13 @@ export function WizardCheckSteps({
 								className='wizard-check-steps__logo'
 							>
 								<img
-									src='https://rbxsoft.com/wp-content/uploads/2023/05/cropped-RBXSoft-Padrao.png'
+									src={company?.logoUrl}
 									loading='lazy'
 									alt='Logo'
 								/>
 							</div>
 							<p className='wizard-check-steps__company'>
-								RBXSoft Company
+								{company?.name}
 							</p>
 						</div>
 

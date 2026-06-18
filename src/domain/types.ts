@@ -21,6 +21,12 @@ export type SignatureData = {
 }
 export type SignatureType = 'typed' | 'drawed'
 
+export type CompanyData = {
+	name: string
+	cnpj: string
+	logoUrl: string
+}
+
 export type FormData = Partial<SignatureData>
 
 export type SignatureStep =
@@ -54,6 +60,9 @@ export type SignSignaturePayload = {
 export type SignatureState = {
 	step: SignatureStep
 	data: SignatureData
+	/** Dados da empresa emissora do documento. */
+	company: CompanyData | null
+	setCompany: (company: CompanyData) => void
 	/** Define se o CPF deve ser editável (true quando veio vazio da API). */
 	cpfEditable: boolean
 	setCpfEditable: (editable: boolean) => void
