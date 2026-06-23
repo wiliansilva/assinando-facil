@@ -3,6 +3,7 @@ export type ValidateDocumentParams = {
 	accessToken: string
 	documentFrontBase64: string
 	documentBackBase64: string
+	document: string
 }
 
 type DocumentQuality = {

@@ -6,12 +6,14 @@ export async function validateDocument({
 	accessToken,
 	documentFrontBase64,
 	documentBackBase64,
+	document,
 }: ValidateDocumentParams): Promise<ValidateDocumentResponse> {
 	const { data } = await api.post<ValidateDocumentResponse>(
 		`/validacoes/documento-oficial/${assinaturaId}`,
 		{
 			autenticacao_foto_frente_base64: documentFrontBase64,
 			autenticacao_foto_verso_base64: documentBackBase64,
+			documento: document,
 		},
 		{
 			params: {

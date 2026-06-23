@@ -28,11 +28,13 @@ export function useValidateDocument() {
 			}
 
 			setIsValidating(true)
+			const document = useSignatureStore.getState().data.cpf ?? ''
 			return validateDocument({
 				assinaturaId,
 				accessToken,
 				documentFrontBase64,
 				documentBackBase64,
+				document,
 			})
 				.then((result) => {
 					if (!result.valid) {
