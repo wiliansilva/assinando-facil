@@ -12,8 +12,6 @@ export function useSignSignature() {
 	const [searchParams] = useSearchParams()
 	const accessToken = searchParams.get('access_token')
 
-	const data = useSignatureStore((state) => state.data)
-
 	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState<string | null>(null)
 	const [response, setResponse] = useState<SignSignatureResponse | null>(null)
@@ -35,6 +33,9 @@ export function useSignSignature() {
 		setError(null)
 
 		try {
+			// Lê o estado mais recente no momento da chamada para evitar
+			// closure desatualizado (o updateData anterior já foi aplicado).
+			const data = useSignatureStore.getState().data
 			const payload = buildSignSignaturePayload(data)
 
 			const result = await signSignature({
@@ -59,7 +60,7 @@ export function useSignSignature() {
 		} finally {
 			setLoading(false)
 		}
-	}, [assinaturaId, accessToken, data])
+	}, [assinaturaId, accessToken])
 
 	return {
 		sign,
