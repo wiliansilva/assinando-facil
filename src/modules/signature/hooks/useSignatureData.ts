@@ -33,7 +33,7 @@ export function useSignatureData() {
 
 	useEffect(() => {
 		// isLoading já inicia false quando inválido ou store já hidratado.
-		if (!isValidParams || isHydrated) return
+		if (!isValidParams) return
 
 		signatureService
 			.getSignature({
@@ -41,6 +41,7 @@ export function useSignatureData() {
 				accessToken: accessToken!,
 			})
 			.then((response) => {
+				if (isHydrated) return
 				setData(response)
 				const cpf =
 					response.signatario.documento?.replace(/\D/g, '') ?? ''
