@@ -12,19 +12,28 @@ export function useSignatureData() {
 	const { id: assinaturaId } = useParams<{ id: string }>()
 	const [searchParams] = useSearchParams()
 	const accessToken = searchParams.get('access_token')
-	const { updateData, setCpfEditable, setCompany } = useSignatureStore()
+	const {
+		updateData,
+		setCpfEditable,
+		setCompany,
+		data: dataStore,
+	} = useSignatureStore()
 
 	const isValidParams = Boolean(assinaturaId && accessToken)
+	// Store já hidratado (persistido em sessionStorage) => não refaz a chamada,
+	// evitando sobrescrever o que o usuário já ajustou (ex.: CPF).
+	const isHydrated = Boolean(dataStore.fullName)
 
 	const [data, setData] = useState<GetSignatureResponse | null>(null)
-	const [isLoading, setLoading] = useState(isValidParams)
+	const [isLoading, setLoading] = useState(isValidParams && !isHydrated)
 	const [errorCode, setErrorCode] = useState<number | null>(0)
 	const [error, setError] = useState<string | null>(
 		isValidParams ? null : 'Parâmetros inválidos na URL.',
 	)
 
 	useEffect(() => {
-		if (!isValidParams) return
+		// isLoading já inicia false quando inválido ou store já hidratado.
+		if (!isValidParams || isHydrated) return
 
 		signatureService
 			.getSignature({
@@ -60,6 +69,7 @@ export function useSignatureData() {
 			.finally(() => setLoading(false))
 	}, [
 		isValidParams,
+		isHydrated,
 		assinaturaId,
 		accessToken,
 		updateData,
